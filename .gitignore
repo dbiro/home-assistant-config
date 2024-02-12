@@ -1,0 +1,7 @@
+/*
+!.gitignore
+!configuration.yaml
+!openssl/
+!esphome/
+esphome/trash
+esphome/secrets.yaml

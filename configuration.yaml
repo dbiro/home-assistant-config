@@ -1,0 +1,74 @@
+# Loads default set of integrations. Do not remove.
+default_config:
+
+# Load frontend themes from the themes folder
+frontend:
+  themes: !include_dir_merge_named themes
+
+automation: !include automations.yaml
+script: !include scripts.yaml
+scene: !include scenes.yaml
+
+##############################
+## My custom configurations ##
+##############################
+
+# HTTP settings
+http:
+  # NGINX SSL proxy settings: https://github.com/home-assistant/addons/blob/master/nginx_proxy/DOCS.md#how-to-use
+  use_x_forwarded_for: true
+  trusted_proxies:
+    - 172.30.33.0/24
+
+# Logbook customization
+logbook:
+  exclude:
+    entities:
+      - sensor.date_time_iso
+
+# Command line integrations
+command_line:
+  - sensor:
+      name: dani-home.tplinkdns.com
+      command: "sh -euc 'cd ./openssl && chmod u+x ./print_certificate_expiration_date.sh && ./print_certificate_expiration_date.sh'"
+      command_timeout: 30 # in secs
+      scan_interval: 3600 # 1 hour in secs
+      icon: mdi:certificate
+      device_class: timestamp
+
+# Custom sensor
+sensor:
+  - platform: time_date
+    display_options:
+      - "date_time_iso"
+
+# Notification settings
+notify:
+  - platform: group
+    name: "Mobile app notifications"
+    services:
+      # Dani mobile phone
+      - service: mobile_app_dani_s10
+      # Timi mobile phone
+      - service: mobile_app_timi_iphone
+      # Home tablet
+      - service: mobile_app_dani_home_tablet
+# Custom alerting
+# alert:
+#   garage_door:
+#     name: Garage is open
+#     done_message: Garage is closed
+#     entity_id: binary_sensor.garage_door_sensor_opening
+#     state: "on"
+#     repeat: 15 # in minutes
+#     can_acknowledge: true
+#     skip_first: true
+#     data:
+#       message: "Move the door for closing!"
+#       actions:
+#         - action: "notification.mobileapp.actions.garage.movedoor"
+#           title: "Move"
+#         - action: "notification.mobileapp.actions.garage.dismiss"
+#           title: "Dismiss"
+#     notifiers:
+#       - mobile_apps_notify_group

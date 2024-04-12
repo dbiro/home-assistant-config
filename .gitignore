@@ -1,6 +1,7 @@
 /*
 !.gitignore
 !configuration.yaml
+!custom_templates/
 !openssl/
 !esphome/
 esphome/trash

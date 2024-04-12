@@ -54,21 +54,24 @@ notify:
       # Home tablet
       - service: mobile_app_dani_home_tablet
 # Custom alerting
-# alert:
-#   garage_door:
-#     name: Garage is open
-#     done_message: Garage is closed
-#     entity_id: binary_sensor.garage_door_sensor_opening
-#     state: "on"
-#     repeat: 15 # in minutes
-#     can_acknowledge: true
-#     skip_first: true
-#     data:
-#       message: "Move the door for closing!"
-#       actions:
-#         - action: "notification.mobileapp.actions.garage.movedoor"
-#           title: "Move"
-#         - action: "notification.mobileapp.actions.garage.dismiss"
-#           title: "Dismiss"
-#     notifiers:
-#       - mobile_apps_notify_group
+alert:
+  garage_door:
+    name: Garage is open
+    done_message: Garage is closed
+    #entity_id: binary_sensor.garage_door_sensor_opening
+    entity_id: input_boolean.test_toggle
+    state: "on"
+    repeat: 1 # in minutes
+    can_acknowledge: false
+    skip_first: false
+    data:
+      notification_id: "notifcation.garage.door_is_open"
+      #message: "Move the door for closing!"
+      #actions:
+      #- action: "notification.mobileapp.actions.garage.movedoor"
+      #  title: "Move"
+      #- action: "notification.mobileapp.actions.garage.dismiss"
+      #  title: "Dismiss"
+    notifiers:
+      #- mobile_apps_notify_group
+      - persistent_notification

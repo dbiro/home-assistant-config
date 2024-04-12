@@ -28,17 +28,10 @@ wifi:
     ssid: "Pico-W-1 Fallback Hotspot"
     password: "jIsIqVokFA1a"
 
-output:
-  - platform: gpio
+light:
+  - platform: status_led
+    name: LED
     pin: 32 # https://randomnerdtutorials.com/raspberry-pi-pico-w-pinout-gpios/#built-in-led
-    id: led
-
-# interval:
-#   - interval: 1000ms
-#     then:
-#       - output.turn_on: led
-#       - delay: 500ms
-#       - output.turn_off: led
 
 binary_sensor:
   - platform: gpio
@@ -48,14 +41,17 @@ binary_sensor:
       mode:
         input: true
         pullup: true
-    on_state:
-      if:
-        condition:
-          binary_sensor.is_on: garage_door_opening
-        then:
-          output.turn_on: led
-        else:
-          output.turn_off: led
+    device_class: opening
+    name: Sliding gate opening
+    id: sliding_gate_opening
+
+  - platform: gpio
+    pin:
+      number: 18
+      # https://esphome.io/components/binary_sensor/gpio#activating-internal-pullups
+      mode:
+        input: true
+        pullup: true
     device_class: opening
     name: Garage door opening
     id: garage_door_opening

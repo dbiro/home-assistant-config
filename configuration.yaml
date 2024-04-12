@@ -20,6 +20,10 @@ http:
   trusted_proxies:
     - 172.30.33.0/24
 
+    # Additional IP filtering using log in attempt threshold
+  ip_ban_enabled: true
+  login_attempts_threshold: 5
+
 # Logbook customization
 logbook:
   exclude:

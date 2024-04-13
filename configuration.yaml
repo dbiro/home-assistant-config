@@ -60,22 +60,40 @@ notify:
 # Custom alerting
 alert:
   garage_door:
-    name: Garage is open
-    done_message: Garage is closed
-    #entity_id: binary_sensor.garage_door_sensor_opening
-    entity_id: input_boolean.test_toggle
+    name: Garage is opened
+    message: Garage door is opened!
+    done_message: clear_notification
+    entity_id: binary_sensor.pico_w_1_garage_door_opening
     state: "on"
-    repeat: 1 # in minutes
+    repeat: 15 # in minutes
     can_acknowledge: false
-    skip_first: false
+    skip_first: true
     data:
-      notification_id: "notifcation.garage.door_is_open"
-      #message: "Move the door for closing!"
-      #actions:
-      #- action: "notification.mobileapp.actions.garage.movedoor"
-      #  title: "Move"
-      #- action: "notification.mobileapp.actions.garage.dismiss"
-      #  title: "Dismiss"
+      tag: alerts.garage_door_is_opened
+      actions:
+        - action: "notification.actions.move_garage_door"
+          title: "Move"
+        - action: "notification.actions.dismiss"
+          title: "Dismiss"
     notifiers:
       #- mobile_apps_notify_group
-      - persistent_notification
+      - mobile_app_dani_s10
+  sliding_gate:
+    name: Sliding gate is opened
+    message: Sliding gate is opened!
+    done_message: clear_notification
+    entity_id: binary_sensor.pico_w_1_sliding_gate_opening
+    state: "on"
+    repeat: 15 # in minutes
+    can_acknowledge: false
+    skip_first: true
+    data:
+      tag: alerts.sliding_gate_is_opened
+      actions:
+        - action: "notification.actions.move_sliding_gate"
+          title: "Move"
+        - action: "notification.actions.dismiss"
+          title: "Dismiss"
+    notifiers:
+      #- mobile_apps_notify_group
+      - mobile_app_dani_s10

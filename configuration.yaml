@@ -76,8 +76,8 @@ alert:
         - action: "notification.actions.dismiss"
           title: "Dismiss"
     notifiers:
-      #- mobile_apps_notify_group
-      - mobile_app_dani_s10
+      - mobile_app_notifications
+      # - mobile_app_dani_s10
   sliding_gate:
     name: Sliding gate is opened
     message: Sliding gate is opened!
@@ -95,5 +95,5 @@ alert:
         - action: "notification.actions.dismiss"
           title: "Dismiss"
     notifiers:
-      #- mobile_apps_notify_group
-      - mobile_app_dani_s10
+      - mobile_app_notifications
+      # - mobile_app_dani_s10

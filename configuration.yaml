@@ -65,7 +65,10 @@ alert:
     done_message: clear_notification
     entity_id: binary_sensor.pico_w_1_garage_door_opening
     state: "on"
-    repeat: 15 # in minutes
+    repeat: # in minutes
+      - 15
+      - 30
+      - 60
     can_acknowledge: false
     skip_first: true
     data:
@@ -73,18 +76,21 @@ alert:
       actions:
         - action: "notification.actions.move_garage_door"
           title: "Move"
-        - action: "notification.actions.dismiss_garage_door_is_opened"
-          title: "Dismiss"
+        - action: "notification.actions.snooze_garage_door_is_opened"
+          title: "Snooze"
     notifiers:
       - mobile_app_notifications
-      # - mobile_app_dani_s10
+
   sliding_gate:
     name: Sliding gate is opened
     message: Sliding gate is opened!
     done_message: clear_notification
     entity_id: binary_sensor.pico_w_1_sliding_gate_opening
     state: "on"
-    repeat: 15 # in minutes
+    repeat: # in minutes
+      - 15
+      - 30
+      - 60
     can_acknowledge: false
     skip_first: true
     data:
@@ -92,8 +98,7 @@ alert:
       actions:
         - action: "notification.actions.move_sliding_gate"
           title: "Move"
-        - action: "notification.actions.dismiss_sliding_gate_is_opened"
-          title: "Dismiss"
+        - action: "notification.actions.snooze_sliding_gate_is_opened"
+          title: "Snooze"
     notifiers:
       - mobile_app_notifications
-      # - mobile_app_dani_s10

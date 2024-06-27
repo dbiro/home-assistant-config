@@ -18,6 +18,7 @@ api:
 
 ota:
   password: "d7523ecc485afb775a8298543b9c8ed1"
+  platform: "esphome"
 
 wifi:
   ssid: !secret wifi_ssid

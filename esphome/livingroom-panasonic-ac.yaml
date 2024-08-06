@@ -16,22 +16,15 @@ logger:
 # Enable Home Assistant API
 api:
   encryption:
-    key: "gN6jqXDu+1aNUXdpzyPJj3GhPTJxsfub7EUbDugYnTE="
+    key: !secret livingroom_panasonic_ac_api_encryption_key
 
 ota:
   - platform: esphome
-    password: "fa7ad02a06069df588bef31b9d1fee86"
+    password: !secret livingroom_panasonic_ac_ota_password
 
 wifi:
   ssid: !secret wifi_ssid
   password: !secret wifi_password
-
-  # Enable fallback hotspot (captive portal) in case wifi connection fails
-  ap:
-    ssid: "Livingroom-Panasonic-Ac"
-    password: "V8KR7cKeNGIN"
-
-captive_portal:
 
 #############################
 ## Panasonic AC controller ##

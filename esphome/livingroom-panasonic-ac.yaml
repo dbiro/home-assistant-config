@@ -10,6 +10,8 @@ esp32:
 # Enable logging
 logger:
   level: VERY_VERBOSE
+  logs:
+    api.service: DEBUG
 
 # Enable Home Assistant API
 api:
@@ -35,24 +37,28 @@ captive_portal:
 ## Panasonic AC controller ##
 #############################
 uart:
-  rx_pin: GPIO08
-  tx_pin: GPIO09  
+  rx_pin: GPIO18
+  tx_pin: GPIO19  
   baud_rate: 9600
   parity: EVEN
   stop_bits: 1
 
 external_components:
-  source: github://dbiro/esphome-panasonic-ac
+  # source: github://dbiro/esphome-panasonic-ac
+  source:
+    type: local
+    path: source/esphome-panasonic-ac/components
   components: [panasonic_ac]
 
 climate:
-  - platform: panasonic_ac
+  - platform: panasonic_ac    
+    name: None
+    icon: mdi:air-conditioner
     type: cnt
-    name: Livingroom Panasonic AC
     horizontal_swing_select:
       name: Horizontal Swing Mode
     vertical_swing_select:
-      name: Vertical Swing Mode    
+      name: Vertical Swing Mode
     nanoex_switch:
       name: NanoeX Switch
     outside_temperature:

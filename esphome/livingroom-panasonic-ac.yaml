@@ -29,13 +29,6 @@ wifi:
 #############################
 ## Panasonic AC controller ##
 #############################
-uart:
-  rx_pin: GPIO18
-  tx_pin: GPIO19  
-  baud_rate: 9600
-  parity: EVEN
-  stop_bits: 1
-
 external_components:
   # source: github://dbiro/esphome-panasonic-ac
   source:
@@ -43,25 +36,36 @@ external_components:
     path: source/esphome-panasonic-ac/components
   components: [panasonic_ac]
 
-climate:
-  - platform: panasonic_ac    
-    name: None
-    icon: mdi:air-conditioner
-    horizontal_swing_select:
-      name: Horizontal Swing Mode
-    vertical_swing_select:
-      name: Vertical Swing Mode
-    nanoex_switch:
-      name: NanoeX Switch
-    outside_temperature:
-      name: Outside Temperature
-    current_power_consumption:
-      name: AC Power Consumption
+uart:
+  # For some reason default TX and RX pins not work!
+  # See: https://github.com/DomiStyle/esphome-panasonic-ac/issues/119#issuecomment-2199421760
+  rx_pin: GPIO18
+  tx_pin: GPIO19  
+  baud_rate: 9600
+  parity: EVEN
+  stop_bits: 1
 
-    # Other options:
-    # eco_switch:
-    #  name: Livingroom Panasonic AC Eco Switch
-    # mild_dry_switch:
-    #   name: Panasonic AC Mild Dry Switch
-    # Useful when the ac does not report a current temperature (CZ-TACG1 only)
-    # current_temperature_sensor: temperature_sensor_id
+climate:
+  - platform: panasonic_ac
+    name: None # use device's friendly name (https://esphome.io/components/climate/#base-climate-configuration)
+    traits:
+      vertical_swing_mode:
+        supported: true
+        selector:
+          name: Vertical Swing Mode
+      horizontal_swing_mode:
+        supported: true
+        selector:
+          name: Horizontal Swing Mode
+      nanoex_mode:
+        supported: true
+        switch:
+          name: NanoeX    
+      outside_temperature:
+        supported: true
+        sensor:
+          name: Outside Temperature
+      current_power_consumption:
+        supported: true
+        sensor:
+          name: Power Consumption

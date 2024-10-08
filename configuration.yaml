@@ -54,7 +54,7 @@ notify:
       # Dani mobile phone
       - service: mobile_app_dani_s10
       # Timi mobile phone
-      - service: mobile_app_timi_iphone
+      - service: mobile_app_timi_iphone_13
       # Home tablet
       - service: mobile_app_dani_home_tablet
 # Custom alerting

@@ -1,6 +1,6 @@
 esphome:
-  name: livingroom-panasonic-ac
-  friendly_name: Livingroom Panasonic AC
+  name: bedroom-panasonic-ac
+  friendly_name: Bedroom Panasonic AC
 
 esp32:
   board: esp32-c3-devkitm-1
@@ -16,11 +16,11 @@ logger:
 # Enable Home Assistant API
 api:
   encryption:
-    key: r0HUuX0u9vslWwlu9GGDcumbD8ozThh0QTV4zsW0eT4=
+    key: e2U03hQHz6Uk/6x20tnmhRJNNb21/N8z7yDvVfR+StY=
 
 ota:
   - platform: esphome
-    password: !secret livingroom_panasonic_ac_ota_password
+    password: b695133c00a03841f8aeb38d6d615c53
 
 wifi:
   ssid: !secret wifi_ssid
@@ -51,19 +51,12 @@ climate:
         selector:
           name: Vertical Swing Mode
       horizontal_swing_mode:
-        supported: true
-        selector:
-          name: Horizontal Swing Mode
+        supported: false
       nanoex_mode:
-        supported: true
-        switch:
-          name: NanoeX    
+        supported: false
       outside_temperature:
         supported: true
         sensor:
           name: Outside Temperature
       current_power_consumption:
-        supported: true
-        sensor:
-          name: Power Consumption
-    
+        supported: false

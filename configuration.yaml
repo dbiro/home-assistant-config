@@ -52,11 +52,11 @@ notify:
     name: "Mobile app notifications"
     services:
       # Dani mobile phone
-      - service: mobile_app_dani_s10
+      - service: notify.mobile_app_sm_s911b
       # Timi mobile phone
-      - service: mobile_app_timi_iphone_13
+      - service: notify.mobile_app_timi_iphone_13
       # Home tablet
-      - service: mobile_app_dani_home_tablet
+      - service: notify.mobile_app_dani_home_tablet
 # Custom alerting
 alert:
   garage_door:

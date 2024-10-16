@@ -16,11 +16,11 @@ logger:
 # Enable Home Assistant API
 api:
   encryption:
-    key: e2U03hQHz6Uk/6x20tnmhRJNNb21/N8z7yDvVfR+StY=
+    key: !secret bedroom_panasonic_ac_api_encryption_key
 
 ota:
   - platform: esphome
-    password: b695133c00a03841f8aeb38d6d615c53
+    password: !secret bedroom_panasonic_ac_ota_password
 
 wifi:
   ssid: !secret wifi_ssid

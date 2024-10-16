@@ -16,7 +16,7 @@ logger:
 # Enable Home Assistant API
 api:
   encryption:
-    key: r0HUuX0u9vslWwlu9GGDcumbD8ozThh0QTV4zsW0eT4=
+    key: !secret livingroom_panasonic_ac_api_encryption_key
 
 ota:
   - platform: esphome

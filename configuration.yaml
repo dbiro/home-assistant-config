@@ -73,11 +73,6 @@ alert:
     skip_first: true
     data:
       tag: alerts.garage_door_is_opened
-      actions:
-        - action: "notification.actions.move_garage_door"
-          title: "Move"
-        - action: "notification.actions.snooze_garage_door_is_opened"
-          title: "Snooze"
     notifiers:
       - mobile_app_notifications
 
@@ -95,10 +90,5 @@ alert:
     skip_first: true
     data:
       tag: alerts.sliding_gate_is_opened
-      actions:
-        - action: "notification.actions.move_sliding_gate"
-          title: "Move"
-        - action: "notification.actions.snooze_sliding_gate_is_opened"
-          title: "Snooze"
     notifiers:
       - mobile_app_notifications

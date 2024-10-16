@@ -1,3 +1,0 @@
-{% macro display_sliding_gate_opening() %}
-{{ iif(is_state('binary_sensor.pico_w_1_sliding_gate_opening', 'on'), 'Opened', 'Closed', 'n/a') }}
-{% endmacro %}

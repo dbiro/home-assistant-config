@@ -1,3 +1,0 @@
-{% macro display_garage_door_opening() %}
-{{ iif(is_state('binary_sensor.pico_w_1_garage_door_opening', 'on'), 'Opened', 'Closed', 'n/a') }}
-{% endmacro %}

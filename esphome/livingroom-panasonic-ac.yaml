@@ -30,7 +30,12 @@ wifi:
 ## Panasonic AC controller ##
 #############################
 external_components:
-  source: github://dbiro/esphome-panasonic-ac
+  # == Released version ==
+  source: github://dbiro/esphome-panasonic-ac@v1.1.0
+  # == Local Development ==
+  # source:
+  #   type: local
+  #   path: source/esphome-panasonic-ac/components
   components: [panasonic_ac]
 
 uart:
@@ -44,7 +49,7 @@ uart:
 
 climate:
   - platform: panasonic_ac
-    name: None # use device's friendly name (https://esphome.io/components/climate/#base-climate-configuration)
+    name: None
     traits:
       vertical_swing_mode:
         supported: true
@@ -66,4 +71,3 @@ climate:
         supported: true
         sensor:
           name: Power Consumption
-    

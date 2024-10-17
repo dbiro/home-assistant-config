@@ -30,7 +30,7 @@ wifi:
 ## Panasonic AC controller ##
 #############################
 external_components:
-  source: github://dbiro/esphome-panasonic-ac
+  source: github://dbiro/esphome-panasonic-ac@v1.1.0
   components: [panasonic_ac]
 
 uart:
@@ -59,4 +59,6 @@ climate:
         sensor:
           name: Outside Temperature
       current_power_consumption:
-        supported: false
+        supported: true
+        sensor:
+          name: Power Consumption

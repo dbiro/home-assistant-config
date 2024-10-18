@@ -51,6 +51,7 @@ sensor:
     name: Daily Energy Usage
     power_id: current_power_consumption
     unit_of_measurement: "kWh"
+    accuracy_decimals: 2
 
 climate:
   - platform: panasonic_ac
@@ -74,6 +75,7 @@ climate:
           id: current_power_consumption
           name: Power Consumption
           unit_of_measurement: "kW"
+          accuracy_decimals: 2
           filters:
             # Multiplication factor from W to kW is 0.001
             - multiply: 0.001

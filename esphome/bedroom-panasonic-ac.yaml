@@ -42,6 +42,16 @@ uart:
   parity: EVEN
   stop_bits: 1
 
+time:
+  - platform: homeassistant
+    id: homeassistant_time
+
+sensor:
+  - platform: total_daily_energy
+    name: Daily Energy Usage
+    power_id: current_power_consumption
+    unit_of_measurement: "kWh"
+
 climate:
   - platform: panasonic_ac
     name: None # use device's friendly name (https://esphome.io/components/climate/#base-climate-configuration)
@@ -61,4 +71,9 @@ climate:
       current_power_consumption:
         supported: true
         sensor:
+          id: current_power_consumption
           name: Power Consumption
+          unit_of_measurement: "kW"
+          filters:
+            # Multiplication factor from W to kW is 0.001
+            - multiply: 0.001

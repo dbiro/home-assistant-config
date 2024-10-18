@@ -31,11 +31,11 @@ wifi:
 #############################
 external_components:
   # == Released version ==
-  source: github://dbiro/esphome-panasonic-ac@v1.1.0
+  # source: github://dbiro/esphome-panasonic-ac@v1.1.0
   # == Local Development ==
-  # source:
-  #   type: local
-  #   path: source/esphome-panasonic-ac/components
+  source:
+    type: local
+    path: source/esphome-panasonic-ac/components
   components: [panasonic_ac]
 
 uart:
@@ -46,6 +46,16 @@ uart:
   baud_rate: 9600
   parity: EVEN
   stop_bits: 1
+
+time:
+  - platform: homeassistant
+    id: homeassistant_time
+
+sensor:
+  - platform: total_daily_energy
+    name: Daily Energy Usage
+    power_id: current_power_consumption
+    unit_of_measurement: "kWh"
 
 climate:
   - platform: panasonic_ac
@@ -70,4 +80,9 @@ climate:
       current_power_consumption:
         supported: true
         sensor:
+          id: current_power_consumption
           name: Power Consumption
+          unit_of_measurement: "kW"
+          filters:
+            # Multiplication factor from W to kW is 0.001
+            - multiply: 0.001

@@ -9,9 +9,7 @@ esp32:
 
 # Enable logging
 logger:
-  level: VERY_VERBOSE
-  logs:
-    api.service: DEBUG
+  level: DEBUG
 
 # Enable Home Assistant API
 api:
@@ -30,7 +28,7 @@ wifi:
 ## Panasonic AC controller ##
 #############################
 external_components:
-  source: github://dbiro/esphome-panasonic-ac@v1.1.0
+  source: github://dbiro/esphome-panasonic-ac@v1.2.0
   components: [panasonic_ac]
 
 uart:
@@ -69,6 +67,10 @@ climate:
         supported: true
         sensor:
           name: Outside Temperature
+      current_temperature:
+        supported: true
+        sensor:
+          name: Current Temperature
       current_power_consumption:
         supported: true
         sensor:

@@ -68,6 +68,28 @@ sensor:
       - "date_time_iso"
 
 # -----------------------------------------------------------------------
+# Generec thermostat for heating control
+# -----------------------------------------------------------------------
+climate:
+  - platform: generic_thermostat
+    unique_id: generic_thermostat.livingroom_heating_thermostat
+    name: Livingroom heating thermostat
+    ac_mode: false
+    heater: switch.gas_boiler_switch
+    target_sensor: sensor.livingroom_temp_sensor_temperature
+    min_temp: 17
+    max_temp: 28
+    cold_tolerance: 0.3
+    hot_tolerance: 0.1
+    precision: 0.1
+    target_temp_step: 0.5
+    keep_alive:
+      seconds: 30
+    away_temp: 21
+    eco_temp: 21.5
+    comfort_temp: 22
+
+# -----------------------------------------------------------------------
 # Notification Settings
 # -----------------------------------------------------------------------
 notify:

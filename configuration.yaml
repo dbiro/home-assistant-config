@@ -9,11 +9,9 @@ automation: !include automations.yaml
 script: !include scripts.yaml
 scene: !include scenes.yaml
 
-##############################
-## My custom configurations ##
-##############################
-
-# HTTP settings
+# -----------------------------------------------------------------------
+# HTTP Integration Settings
+# -----------------------------------------------------------------------
 http:
   # NGINX SSL proxy settings: https://github.com/home-assistant/addons/blob/master/nginx_proxy/DOCS.md#how-to-use
   use_x_forwarded_for: true
@@ -24,13 +22,25 @@ http:
   ip_ban_enabled: true
   login_attempts_threshold: 5
 
-# Logbook customization
+# -----------------------------------------------------------------------
+# Logbook Customization
+# -----------------------------------------------------------------------
 logbook:
   exclude:
     entities:
       - sensor.date_time_iso
 
-# Command line integrations
+# -----------------------------------------------------------------------
+# ZHA Integration
+# -----------------------------------------------------------------------
+zha:
+  device_config:
+    a4:c1:38:b7:91:31:44:ad-1:
+      type: "switch"
+
+# -----------------------------------------------------------------------
+# Command Line Integration
+# -----------------------------------------------------------------------
 command_line:
   - sensor:
       name: dani-home.tplinkdns.com
@@ -39,14 +49,27 @@ command_line:
       scan_interval: 3600 # 1 hour in secs
       icon: mdi:certificate
       device_class: timestamp
+  - sensor:
+      name: "Disk temperature"
+      command: "cat /sys/block/nvme0n1/device/hwmon1/temp1_input"
+      command_timeout: 2
+      scan_interval: 5
+      value_template: "{{ value | int | multiply(0.001) | round(1) }}"
+      unit_of_measurement: "°C"
+      device_class: temperature
+      state_class: measurement
 
-# Custom sensor
+# -----------------------------------------------------------------------
+# Custom Sensors
+# -----------------------------------------------------------------------
 sensor:
   - platform: time_date
     display_options:
       - "date_time_iso"
 
-# Notification settings
+# -----------------------------------------------------------------------
+# Notification Settings
+# -----------------------------------------------------------------------
 notify:
   - platform: group
     name: "Mobile app notifications"
@@ -57,7 +80,10 @@ notify:
       - service: mobile_app_timi_iphone_13
       # Home tablet
       - service: mobile_app_dani_home_tablet
-# Custom alerting
+
+# -----------------------------------------------------------------------
+# Alerting
+# -----------------------------------------------------------------------
 alert:
   garage_door:
     name: Garage is opened

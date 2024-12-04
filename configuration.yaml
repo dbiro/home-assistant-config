@@ -51,8 +51,8 @@ command_line:
       device_class: timestamp
   - sensor:
       name: "Disk temperature"
-      command: "cat /sys/block/nvme0n1/device/hwmon1/temp1_input"
-      command_timeout: 2
+      command: "cat /sys/class/nvme/nvme0/hwmon1/temp1_input"
+      command_timeout: 1
       scan_interval: 5
       value_template: "{{ value | int | multiply(0.001) | round(1) }}"
       unit_of_measurement: "°C"

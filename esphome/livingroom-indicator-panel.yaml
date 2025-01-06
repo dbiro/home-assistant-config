@@ -1,5 +1,28 @@
-#### ESPHome devices page: https://devices.esphome.io/devices/Guition-ESP32-S3-4848S040
-#### Hardware configuration: https://github.com/agillis/esphome-configs/blob/main/modules/hardware/guition-esp32-s3-4848s040.yaml
+esphome:
+  name: livingroom-indicator-panel
+  friendly_name: Livingroom indicator panel
+
+esp32:
+  board: esp32-s3-devkitc-1
+  variant: esp32s3
+  flash_size: 8MB
+  framework:
+    type: esp-idf
+    #version: 5.2.2
+    #platform_version: 6.7.0
+    sdkconfig_options:
+      CONFIG_ESPTOOLPY_FLASHSIZE_8MB: "y"
+      CONFIG_ESP32S3_DEFAULT_CPU_FREQ_240: "y"
+      CONFIG_ESP32S3_DATA_CACHE_64KB: "y"
+      CONFIG_SPIRAM_FETCH_INSTRUCTIONS: "y"
+      CONFIG_SPIRAM_RODATA: "y"
+
+psram:
+  mode: octal
+  speed: 80MHz
+
+preferences:
+  flash_write_interval: 1min
 
 # Enable logging
 logger:
@@ -7,7 +30,7 @@ logger:
 # Enable Home Assistant API
 api:
   encryption:
-    key: !secret livingroom_control_panel_encryption_key
+    key: !secret livingroom_indicator_panel_encryption_key
   on_client_connected:
     then:
       lvgl.widget.show: lbl_api_connection
@@ -21,7 +44,7 @@ api:
 
 ota:
   - platform: esphome
-    password: !secret livingroom_control_panel_ota_password
+    password: !secret livingroom_indicator_panel_ota_password
 
 wifi:
   ssid: !secret wifi_ssid
@@ -33,66 +56,105 @@ wifi:
     then:
       lvgl.widget.hide: lbl_wifi_connection
 
-esphome:
-  name: livingroom-control-panel
-  friendly_name: Livingroom control panel
-  platformio_options:
-    board_build.flash_mode: dio
-
-esp32:
-  board: esp32-s3-devkitc-1
-  variant: esp32s3
-  flash_size: 16MB
-  framework:
-    type: esp-idf
-    sdkconfig_options:
-      COMPILER_OPTIMIZATION_SIZE: y
-      CONFIG_ESP32S3_DEFAULT_CPU_FREQ_240: "y"
-      CONFIG_ESP32S3_DATA_CACHE_64KB: "y"
-      CONFIG_ESP32S3_DATA_CACHE_LINE_64B: "y"
-      CONFIG_SPIRAM_FETCH_INSTRUCTIONS: y
-      CONFIG_SPIRAM_RODATA: y
-
-preferences:
-  flash_write_interval: 1min      
-
-psram:
-  mode: octal
-  speed: 80MHz
-
 #-------------------------------------------
 # Internal outputs
 #-------------------------------------------
 output:
     # Backlight LED
   - platform: ledc
-    pin: GPIO38
-    id: GPIO38
+    pin:
+      number: GPIO45
+      ignore_strapping_warning: true
+    id: ledc_GPIO45
     frequency: 100Hz
 
 light:
   - platform: monochromatic
-    output: GPIO38
+    output: ledc_GPIO45
     name: Display Backlight
     id: display_backlight
     restore_mode: ALWAYS_ON
+    entity_category: config
 
 #-------------------------------------------
-# Touchscreen gt911 i2c
+# Display st7701s spi
+#-------------------------------------------
+spi:
+  - id: lcd_spi
+    clk_pin: GPIO41
+    mosi_pin: GPIO48
+
+pca9554:
+  - id: pca9554a_device
+    address: 0x20
+    pin_count: 16
+
+display:
+  - platform: st7701s
+    id: my_display
+    auto_clear_enabled: false
+    data_rate: 4MHz
+    update_interval: never
+    spi_mode: MODE3
+    color_order: RGB
+    dimensions:
+      width: 480
+      height: 480
+    invert_colors: true
+    transform:
+      mirror_x: true
+      mirror_y: true
+    cs_pin:
+      pca9554: pca9554a_device
+      number: 4
+    reset_pin:
+      pca9554: pca9554a_device
+      number: 5
+    de_pin: GPIO18
+    hsync_pin: GPIO16
+    vsync_pin: GPIO17
+    pclk_pin: GPIO21
+    init_sequence:
+      - 1 # select canned init sequence number 1
+      - delay 5ms
+      - [ 0xE0, 0x1F ]  # Set sunlight readable enhancement
+    data_pins:
+      red:
+        - 4         #r1
+        - 3         #r2
+        - 2         #r3
+        - 1         #r4
+        - 0         #r5
+      green:
+        - 10        #g0
+        - 9         #g1
+        - 8         #g2
+        - 7         #g3
+        - 6         #g4
+        - 5         #g5
+      blue:
+        - 15        #b1
+        - 14        #b2
+        - 13        #b3
+        - 12        #b4
+        - 11        #b5
+
+#-------------------------------------------
+# Touchscreen FT5X06 i2c
 #-------------------------------------------
 i2c:
   - id: bus_a
-    sda: GPIO19
-    scl: GPIO45
+    sda: GPIO39
+    scl: GPIO40
+    scan: false
     
 touchscreen:
-  platform: gt911
+  platform: ft5x06
   transform:
-    mirror_x: false
-    mirror_y: false
+    mirror_x: true
+    mirror_y: true
   id: my_touchscreen
   display: my_display
-
   on_touch:   
     - if:
         condition: lvgl.is_paused
@@ -102,65 +164,6 @@ touchscreen:
           - delay: 1s
           - light.turn_on: display_backlight
 
-#-------------------------------------------
-# Display st7701s spi
-#-------------------------------------------
-spi:
-  - id: lcd_spi
-    clk_pin: GPIO48
-    mosi_pin: GPIO47
-    
-display:
-  - platform: st7701s
-    id: my_display
-    update_interval: never
-    auto_clear_enabled: False
-    spi_mode: MODE3
-    data_rate: 2MHz
-    color_order: RGB
-    invert_colors: False
-    dimensions:
-      width: 480
-      height: 480
-    cs_pin: 39
-    de_pin: 18
-    hsync_pin: 16
-    vsync_pin: 17
-    pclk_pin: 21
-    pclk_frequency: 12MHz
-    pclk_inverted: False
-    hsync_pulse_width: 8
-    hsync_front_porch: 10
-    hsync_back_porch: 20
-    vsync_pulse_width: 8
-    vsync_front_porch: 10
-    vsync_back_porch: 10
-    init_sequence:
-      - 1
-      # Custom sequences are an array, first byte is command, the rest are data.
-      - [ 0xFF, 0x77, 0x01, 0x00, 0x00, 0x10 ] # CMD2_BKSEL_BK0
-      - [ 0xCD, 0x00 ] # disable MDT flag
-    data_pins:
-      red:
-        - 11        #r1
-        - 12        #r2
-        - 13        #r3
-        - 14        #r4
-        - 0         #r5
-      green:
-        - 8         #g0
-        - 20        #g1
-        - 3         #g2
-        - 46        #g3
-        - 9         #g4
-        - 10        #g5
-      blue:
-        - 4         #b1
-        - 5         #b2
-        - 6         #b3
-        - 7         #b4
-        - 15        #b5
-    
 #-------------------------------------------
 # Home Assistant - Gas Boiler Sensors
 #-------------------------------------------
@@ -456,8 +459,8 @@ lvgl:
             grid_cell_y_align: center
             adjustable: false            
             value: 100
-            width: 290
-            height: 290
+            width: 300
+            height: 300
             translate_y: 8
             arc_width: 4
             indicator:

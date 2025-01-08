@@ -5,7 +5,7 @@ set -euo pipefail
 apk update 1>/dev/null
 apk add openssl 1>/dev/null
 
-my_domain='dani-home.tplinkdns.com'
+my_domain="$(sed -n "s/^my_domain: \"\(.*\)\"/\1/p" /config/secrets.yaml)"
 my_port=443
 my_public_ip=$(dig $my_domain +short) # somehow openssl can not resolve my domain
 

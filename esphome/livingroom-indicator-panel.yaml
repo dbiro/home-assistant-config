@@ -77,6 +77,35 @@ light:
     entity_category: config
 
 #-------------------------------------------
+# Internal button
+#-------------------------------------------
+binary_sensor:
+  - platform: gpio
+    internal: true
+    id: indicator_button
+    name: "Indicator Button"
+    pin:
+      number: GPIO38
+      inverted: yes
+      mode:
+        input: true
+        pullup: true
+    on_press:
+      then:
+        - if:
+            condition: lvgl.is_paused
+            then:
+              - lvgl.resume
+              - lvgl.widget.redraw
+              - delay: 0.5s
+              - light.turn_on: display_backlight
+            else:
+              - light.turn_off: display_backlight
+              - delay: 1s
+              - lvgl.pause:
+                  show_snow: true
+
+#-------------------------------------------
 # Display st7701s spi
 #-------------------------------------------
 spi:
@@ -167,6 +196,24 @@ touchscreen:
 #-------------------------------------------
 # Home Assistant - Gas Boiler Sensors
 #-------------------------------------------
+time:
+  - platform: homeassistant
+    id: ha_time
+    on_time:
+      - seconds: 0
+        minutes: "*"
+        then:
+          - logger.log: "HA ON_TIME"
+          - lvgl.label.update:
+              id: lbl_time
+              text: !lambda return id(ha_time).now().strftime("%H:%M");
+    on_time_sync:
+      then:
+        - logger.log: "HA ON_TIME_SYNC"
+        - lvgl.label.update:
+              id: lbl_time
+              text: !lambda return id(ha_time).now().strftime("%H:%M");
+
 sensor:
   - platform: homeassistant
     id: ha_gas_boiler_current_temp_sensor
@@ -396,6 +443,13 @@ lvgl:
           scrollable: false
           align: top_mid
           widgets:
+            - label:
+                id: lbl_time
+                align: left_mid
+                text: "--:--"
+                text_font: "roboto_20"
+                text_color: color_light_blue_main
+                text_align: center
             - label:
                 id: "lbl_title"
                 text: "\U000F0393 GAS BOILER"

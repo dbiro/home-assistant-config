@@ -1,0 +1,155 @@
+#-------------------------------------------
+# Home Assistant - Gas Boiler Sensors
+#-------------------------------------------
+time:
+  - platform: homeassistant
+    id: ha_time
+    on_time:
+      - seconds: 0
+        minutes: "*"
+        then:
+          - logger.log: "HA ON_TIME"
+          - lvgl.label.update:
+              id: lbl_time
+              text: !lambda return id(ha_time).now().strftime("%H:%M");
+    on_time_sync:
+      then:
+        - logger.log: "HA ON_TIME_SYNC"
+        - lvgl.label.update:
+              id: lbl_time
+              text: !lambda return id(ha_time).now().strftime("%H:%M");
+
+sensor:
+  - platform: homeassistant
+    id: ha_gas_boiler_current_temp_sensor
+    entity_id: climate.gas_boiler_thermostat
+    attribute: current_temperature
+    on_value: 
+      then:
+        - lvgl.label.update:
+            id: lbl_current_temp
+            text:
+              format: "\U000F050F %.1f °C"
+              args: [x]
+            
+  - platform: homeassistant
+    id: ha_gas_boiler_temp_sensor
+    entity_id: climate.gas_boiler_thermostat
+    attribute: temperature
+    on_value: 
+      then:
+        - lvgl.label.update:
+            id: lbl_target_temp
+            text:
+              format: "%.1f"
+              args: [x]
+
+  - platform: homeassistant
+    id: ha_gas_boiler_target_temp_step_sensor
+    entity_id: climate.gas_boiler_thermostat
+    attribute: target_temp_step
+
+text_sensor:
+  - platform: homeassistant
+    id: ha_gas_boiler_hvac_action_sensor
+    entity_id: climate.gas_boiler_thermostat
+    attribute: hvac_action
+    filters:
+      - map:
+          - heating -> Heating
+          - idle -> Idle
+          - off -> Off
+    on_value: 
+      then:
+        - if:
+            condition:
+              lambda: |-
+                return x == "Heating";
+            then:
+              - lvgl.label.update:
+                  id: lbl_hvac_action
+                  text_color: color_heating
+                  text: "\U000F0438"
+              - lvgl.label.update:
+                  id: lbl_current_temp
+                  text_color: color_heating
+              - lvgl.arc.update:
+                  id: arc_hvac_action
+                  indicator:
+                    arc_opa: cover
+              - if:
+                  condition: lvgl.is_paused
+                  then:          
+                    - lvgl.resume
+                    - lvgl.widget.redraw
+                    - delay: 1s
+                    - light.turn_on: display_backlight
+            else:
+              - lvgl.label.update:
+                  id: lbl_current_temp
+                  text_color: color_dark_text
+              - if:
+                  condition: 
+                    lvgl.is_idle:
+                      timeout: 30min
+                  then:
+                    - light.turn_off: display_backlight
+                    - delay: 1s
+                    - lvgl.pause:
+                        show_snow: true
+              - if:
+                  condition: 
+                    lambda: |-
+                      return x == "Idle";
+                  then:
+                    - lvgl.label.update:
+                        id: lbl_hvac_action
+                        text_color: color_dark_text
+                        text: "\U000F0150"
+                    - lvgl.arc.update:
+                        id: arc_hvac_action
+                        indicator:
+                          arc_opa: 20%
+                  else:
+                    - lvgl.label.update:
+                        id: lbl_hvac_action
+                        text_color: color_dark_text
+                        text: !lambda return x;
+                    - lvgl.arc.update:
+                        id: arc_hvac_action
+                        indicator:
+                          arc_opa: transp
+
+  - platform: homeassistant
+    id: ha_gas_boiler_state_sensor
+    entity_id: climate.gas_boiler_thermostat
+    filters:
+      - to_lower:
+    on_value: 
+      then:
+        if:
+          condition:
+            lambda: |-
+              return x == "heat";
+          then:
+            - lvgl.buttonmatrix.update:
+                id: btn_matrix_modes
+                items:
+                  checked:
+                    bg_color: color_heating
+                    bg_opa: "20%"
+            - lvgl.matrix.button.update:
+                id: btn_heat
+                control:
+                  checked: true
+          else:
+            - lvgl.buttonmatrix.update:
+                id: btn_matrix_modes
+                items:
+                  checked:
+                    bg_color: color_dark_text
+                    bg_opa: "20%"
+            - lvgl.matrix.button.update:
+                id: btn_off
+                control:
+                  checked: true

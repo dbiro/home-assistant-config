@@ -1,0 +1,250 @@
+lvgl:
+  displays:
+    - my_display
+  touchscreens:
+    - my_touchscreen
+  default_font: "roboto_14"
+  on_idle:
+    timeout: 30min
+    then:
+      if:
+        condition:
+          lambda: |-
+            return id(ha_gas_boiler_hvac_action_sensor).state != "Heating";
+        then:
+          - light.turn_off: display_backlight
+          - delay: 1s
+          - lvgl.pause:
+              show_snow: true
+  top_layer:
+    widgets:
+      - obj:
+          id: "page_header"
+          height: 50
+          width: 100%
+          bg_opa: cover
+          bg_color: color_dark_card
+          border_width: 0
+          border_opa: transp
+          radius: 0
+          pad_all: 10
+          scrollable: false
+          align: top_mid
+          widgets:
+            - label:
+                id: lbl_time
+                align: left_mid
+                text: "--:--"
+                text_font: "roboto_20"
+                text_color: color_light_blue_main
+                text_align: center
+            - label:
+                id: "lbl_title"
+                text: "\U000F0393 GAS BOILER"
+                text_font: "roboto_20"
+                text_align: center
+                text_color: color_light_blue_main
+                align: center
+            - obj:
+                id: "connections_container"
+                border_width: 0
+                bg_opa: transp
+                pad_all: 0
+                align: right_mid
+                layout:
+                  type: flex
+                  flex_flow: row
+                  pad_row: 0
+                  flex_align_main: end
+                  flex_align_cross: center
+                  flex_align_track: center
+                widgets:
+                  - label:
+                      id: "lbl_api_connection"
+                      hidden: true
+                      text: "\U000F07D0"
+                      text_font: "roboto_20"
+                      text_align: center
+                      text_color: color_light_blue_main
+                  - label:
+                      id: "lbl_wifi_connection"
+                      hidden: true
+                      text: "\U000F05A9"
+                      text_font: "roboto_20"
+                      text_align: center
+                      text_color: color_light_blue_main
+  pages:
+    - id: main_page
+      on_load:
+        then:
+          lambda: |-
+            lv_theme_t * darkth = lv_theme_default_init(NULL, lv_palette_main(LV_PALETTE_LIGHT_BLUE), lv_palette_main(LV_PALETTE_AMBER), true, lv_theme_get_font_normal(NULL));
+            lv_disp_set_theme(NULL, darkth);
+            ESP_LOGD("main_page", "Dark theme configured successfully.");
+      layout:
+        type: grid
+        grid_rows: [fr(1), content, fr(1)]
+        grid_columns: [fr(1), content, fr(1)]
+        pad_column: 0
+      pad_top: 0
+      pad_left: 20
+      pad_right: 20
+      pad_bottom: 5
+      widgets:
+        - arc:
+            id: "arc_hvac_action"
+            grid_cell_row_pos: 0
+            grid_cell_column_pos: 0
+            grid_cell_row_span: 3
+            grid_cell_column_span: 3
+            grid_cell_x_align: center
+            grid_cell_y_align: center
+            adjustable: false            
+            value: 100
+            width: 300
+            height: 300
+            translate_y: 8
+            arc_width: 4
+            indicator:
+              arc_color: color_heating
+              arc_opa: transp
+              arc_width: 4
+        - label:
+            id: "lbl_hvac_action"
+            grid_cell_row_pos: 0
+            grid_cell_column_pos: 1
+            grid_cell_x_align: center
+            grid_cell_y_align: end
+            text: "-"
+            text_font: "roboto_24"
+            pad_bottom: 8
+        - button:
+            id: "btn_increase_target_temp"
+            grid_cell_row_pos: 1
+            grid_cell_column_pos: 2
+            grid_cell_x_align: end
+            grid_cell_y_align: center
+            height: 52
+            width: 52
+            bg_color: color_dark_card
+            widgets:
+              - label:
+                  text: "+"
+                  text_font: "roboto_26"
+                  align: center
+            on_click:
+              then:
+                homeassistant.action:
+                  action: "climate.set_temperature"
+                  data:
+                    entity_id: "climate.gas_boiler_thermostat"
+                    temperature: !lambda return id(ha_gas_boiler_temp_sensor).state + 0.5;
+                    
+        - button:
+            id: "btn_decrease_target_temp"
+            grid_cell_row_pos: 1
+            grid_cell_column_pos: 0
+            grid_cell_x_align: start
+            grid_cell_y_align: center
+            height: 52
+            width: 52
+            bg_color: color_dark_card
+            widgets:
+              - label:
+                  text: "-"
+                  text_font: "roboto_26"
+                  align: center
+            on_click:
+              then:
+                homeassistant.action:
+                  action: "climate.set_temperature"
+                  data:
+                    entity_id: "climate.gas_boiler_thermostat"
+                    temperature: !lambda return id(ha_gas_boiler_temp_sensor).state - 0.5;
+        - label:
+            id: "lbl_current_temp"
+            grid_cell_row_pos: 2
+            grid_cell_column_pos: 1
+            grid_cell_x_align: center
+            grid_cell_y_align: start
+            text: "--.- °C"
+            text_font: "roboto_24"
+            pad_top: 10
+        - label:
+            id: "lbl_target_temp"
+            grid_cell_row_pos: 1
+            grid_cell_column_pos: 1
+            grid_cell_x_align: center
+            grid_cell_y_align: center
+            text: "--.-"
+            text_font: "roboto_96"
+            pad_all: 0
+        - label:
+            id: "lbl_target_temp_unit"
+            grid_cell_row_pos: 1
+            grid_cell_column_pos: 2
+            text: "°C"
+            text_font: "roboto_28"
+            pad_top: 15
+        - buttonmatrix:
+            id: "btn_matrix_modes"
+            grid_cell_row_pos: 2
+            grid_cell_column_span: 3
+            grid_cell_column_pos: 0
+            grid_cell_x_align: center
+            grid_cell_y_align: end
+            one_checked: true
+            height: 50
+            width: 340
+            pad_column: 0
+            pad_all: 0
+            border_width: 0
+            items:
+              text_font: "roboto_26"
+              bg_opa: transp
+            rows:
+              - buttons:
+                  - text: "\U000F0238"
+                    id: btn_heat
+                    control:
+                      checkable: true
+                    on_value:
+                      then:
+                        - homeassistant.action:
+                            action: "climate.set_hvac_mode"
+                            data:
+                              entity_id: "climate.gas_boiler_thermostat"
+                              hvac_mode: "heat"
+                        - if:
+                            condition:
+                              lambda: |-
+                                return x;
+                            then:
+                              lvgl.buttonmatrix.update:
+                                id: btn_matrix_modes
+                                items:
+                                  checked:
+                                    bg_color: color_heating
+                                    bg_opa: "20%"
+                  - text: "\U000F0906"
+                    id: btn_off
+                    control:
+                      checkable: true
+                    on_value:
+                      then:
+                        - homeassistant.action:
+                            action: "climate.set_hvac_mode"
+                            data:
+                              entity_id: "climate.gas_boiler_thermostat"
+                              hvac_mode: "off"
+                        - if:
+                            condition:
+                              lambda: |-
+                                return x;
+                            then:
+                              lvgl.buttonmatrix.update:
+                                id: btn_matrix_modes
+                                items:
+                                  checked:
+                                    bg_color: color_dark_text
+                                    bg_opa: "20%"

@@ -1,0 +1,60 @@
+#-------------------------------------------
+# Roboto fonts with material icons for LVGL
+#-------------------------------------------
+font:
+  - file: "fonts/Roboto-Regular.ttf"
+    size: 14
+    id: "roboto_14"
+    bpp: 4
+  - file: "fonts/Roboto-Regular.ttf"
+    size: 16
+    id: "roboto_16"
+    bpp: 4
+  - file: "fonts/Roboto-Regular.ttf"
+    size: 18
+    id: "roboto_18"
+    bpp: 4
+  - file: "fonts/Roboto-Regular.ttf"
+    size: 20
+    id: "roboto_20"
+    bpp: 4
+    extras:
+      - file: "fonts/materialdesignicons-webfont.ttf"
+        glyphs: [
+          "\U000F0393", # mdi:thermostat
+          "\U000F07D0", # mdi:home-assistant
+          "\U000F05A9"  # mdi:wifi
+        ]
+  - file: "fonts/Roboto-Regular.ttf"
+    size: 22
+    id: "roboto_22"
+    bpp: 4
+  - file: "fonts/Roboto-Regular.ttf"
+    size: 24
+    id: "roboto_24"
+    bpp: 4
+    extras:
+      - file: "fonts/materialdesignicons-webfont.ttf"
+        glyphs: [
+          "\U000F050F",  # mdi:thermometer
+          "\U000F0438",  # mdi:radiator
+          "\U000F0150"   # mdi:clock-outline
+        ]
+  - file: "fonts/Roboto-Regular.ttf"
+    size: 26
+    id: "roboto_26"
+    bpp: 4
+    extras:
+      - file: "fonts/materialdesignicons-webfont.ttf"
+        glyphs: [
+          "\U000F0238",  # mdi:fire
+          "\U000F0906"   # mdi:power-standby
+        ]
+  - file: "fonts/Roboto-Regular.ttf"
+    size: 28
+    id: "roboto_28"
+    bpp: 4
+  - file: "fonts/Roboto-Regular.ttf"
+    size: 96
+    id: "roboto_96"
+    bpp: 4

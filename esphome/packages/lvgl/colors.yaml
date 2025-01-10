@@ -1,0 +1,20 @@
+#----------------------------------------------
+# Color and dark theme configuration for LVGL
+#----------------------------------------------
+#
+# material color palette: https://vuetifyjs.com/en/styles/colors/#material-colors
+# lvgl default theme colors: https://github.com/lvgl/lvgl/blob/master/src/themes/default/lv_theme_default.c
+#
+# lvgl default dark theme settings (see page.on_load trigger)
+#     primary color palette: LIGHT_BLUE
+#     secondary_color_palette: AMBER
+#
+color:
+  - id: color_heating # mc:amber-darken-4
+    hex: FF6F00
+  - id: color_light_blue_main # mc: light_blue_main
+    hex: 03A9F4
+  - id: color_dark_card # lvgl:DARK_COLOR_CARD
+    hex: 282b30
+  - id: color_dark_text # lvgl:DARK_COLOR_TEXT / mc: grey-lighten-5
+    hex: FAFAFA

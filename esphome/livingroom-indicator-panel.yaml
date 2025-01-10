@@ -154,10 +154,10 @@ text_sensor:
               - if:
                   condition: lvgl.is_paused
                   then:          
-                  - lvgl.resume
-                  - lvgl.widget.redraw
-                  - delay: 1s
-                  - light.turn_on: display_backlight
+                    - lvgl.resume
+                    - lvgl.widget.redraw
+                    - delay: 1s
+                    - light.turn_on: display_backlight
             else:
               - lvgl.label.update:
                   id: lbl_current_temp
@@ -165,7 +165,7 @@ text_sensor:
               - if:
                   condition: 
                     lvgl.is_idle:
-                      timeout: 30s
+                      timeout: 30min
                   then:
                     - light.turn_off: display_backlight
                     - delay: 1s

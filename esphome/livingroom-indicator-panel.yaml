@@ -1,40 +1,26 @@
-esphome:
-  name: livingroom-indicator-panel
-  friendly_name: Livingroom indicator panel
+# -----------------------------
+# Define substitutions
+# -----------------------------
+substitutions:
+  esphome_node_name: livingroom-indicator-panel
+  esphome_node_friendly_name: Livingroom indicator panel
 
-esp32:
-  board: esp32-s3-devkitc-1
-  variant: esp32s3
-  flash_size: 8MB
-  framework:
-    type: esp-idf
-    #version: 5.2.2
-    #platform_version: 6.7.0
-    sdkconfig_options:
-      CONFIG_ESPTOOLPY_FLASHSIZE_8MB: "y"
-      CONFIG_ESP32S3_DEFAULT_CPU_FREQ_240: "y"
-      CONFIG_ESP32S3_DATA_CACHE_64KB: "y"
-      CONFIG_SPIRAM_FETCH_INSTRUCTIONS: "y"
-      CONFIG_SPIRAM_RODATA: "y"
+# -----------------------------
+# Include required packages
+# -----------------------------
+packages:
+  device_base: !include packages/core/device-base.yaml
+  wifi: !include packages/core/wifi.yaml
+  sensecap_indicator: !include packages/hardware/sensecap-indicator-touchscreen.yaml
 
-psram:
-  mode: octal
-  speed: 80MHz
-
-preferences:
-  flash_write_interval: 1min
-
-# Enable logging
-logger:
-
-# Enable Home Assistant API
+# -----------------------------
+# Setup API triggers
+# -----------------------------
 api:
-  encryption:
-    key: !secret livingroom_indicator_panel_encryption_key
   on_client_connected:
     then:
       lvgl.widget.show: lbl_api_connection
-  on_client_disconnected:    
+  on_client_disconnected:
     then:
       - if:
           condition:
@@ -42,13 +28,10 @@ api:
           then:
             - lvgl.widget.hide: lbl_api_connection
 
-ota:
-  - platform: esphome
-    password: !secret livingroom_indicator_panel_ota_password
-
+# -----------------------------
+# Setup Wi-i triggers
+# -----------------------------
 wifi:
-  ssid: !secret wifi_ssid
-  password: !secret wifi_password
   on_connect:
     then:
       lvgl.widget.show: lbl_wifi_connection
@@ -57,39 +40,10 @@ wifi:
       lvgl.widget.hide: lbl_wifi_connection
 
 #-------------------------------------------
-# Internal outputs
-#-------------------------------------------
-output:
-    # Backlight LED
-  - platform: ledc
-    pin:
-      number: GPIO45
-      ignore_strapping_warning: true
-    id: ledc_GPIO45
-    frequency: 100Hz
-
-light:
-  - platform: monochromatic
-    output: ledc_GPIO45
-    name: Display Backlight
-    id: display_backlight
-    restore_mode: ALWAYS_ON
-    entity_category: config
-
-#-------------------------------------------
-# Internal button
+# Ssetup internal button triggers
 #-------------------------------------------
 binary_sensor:
-  - platform: gpio
-    internal: true
-    id: indicator_button
-    name: "Indicator Button"
-    pin:
-      number: GPIO38
-      inverted: yes
-      mode:
-        input: true
-        pullup: true
+  - id: !extend indicator_button
     on_press:
       then:
         - if:
@@ -106,84 +60,9 @@ binary_sensor:
                   show_snow: true
 
 #-------------------------------------------
-# Display st7701s spi
+# Setup touchscreen triggers
 #-------------------------------------------
-spi:
-  - id: lcd_spi
-    clk_pin: GPIO41
-    mosi_pin: GPIO48
-
-pca9554:
-  - id: pca9554a_device
-    address: 0x20
-    pin_count: 16
-
-display:
-  - platform: st7701s
-    id: my_display
-    auto_clear_enabled: false
-    data_rate: 4MHz
-    update_interval: never
-    spi_mode: MODE3
-    color_order: RGB
-    dimensions:
-      width: 480
-      height: 480
-    invert_colors: true
-    transform:
-      mirror_x: true
-      mirror_y: true
-    cs_pin:
-      pca9554: pca9554a_device
-      number: 4
-    reset_pin:
-      pca9554: pca9554a_device
-      number: 5
-    de_pin: GPIO18
-    hsync_pin: GPIO16
-    vsync_pin: GPIO17
-    pclk_pin: GPIO21
-    init_sequence:
-      - 1 # select canned init sequence number 1
-      - delay 5ms
-      - [ 0xE0, 0x1F ]  # Set sunlight readable enhancement
-    data_pins:
-      red:
-        - 4         #r1
-        - 3         #r2
-        - 2         #r3
-        - 1         #r4
-        - 0         #r5
-      green:
-        - 10        #g0
-        - 9         #g1
-        - 8         #g2
-        - 7         #g3
-        - 6         #g4
-        - 5         #g5
-      blue:
-        - 15        #b1
-        - 14        #b2
-        - 13        #b3
-        - 12        #b4
-        - 11        #b5
-
-#-------------------------------------------
-# Touchscreen FT5X06 i2c
-#-------------------------------------------
-i2c:
-  - id: bus_a
-    sda: GPIO39
-    scl: GPIO40
-    scan: false
-    
 touchscreen:
-  platform: ft5x06
-  transform:
-    mirror_x: true
-    mirror_y: true
-  id: my_touchscreen
-  display: my_display
   on_touch:   
     - if:
         condition: lvgl.is_paused

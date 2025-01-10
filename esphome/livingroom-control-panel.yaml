@@ -1,13 +1,12 @@
-#### ESPHome devices page: https://devices.esphome.io/devices/Guition-ESP32-S3-4848S040
-#### Hardware configuration: https://github.com/agillis/esphome-configs/blob/main/modules/hardware/guition-esp32-s3-4848s040.yaml
+substitutions:
+  esphome_node_name: livingroom-control-panel
+  esphome_node_friendly_name: Livingroom control panel
 
-# Enable logging
-logger:
+packages:
+  device_base: !include packages/core/device-base.yaml
+  wifi: !include packages/core/wifi.yaml
 
-# Enable Home Assistant API
 api:
-  encryption:
-    key: !secret livingroom_control_panel_encryption_key
   on_client_connected:
     then:
       lvgl.widget.show: lbl_api_connection
@@ -19,13 +18,7 @@ api:
           then:
             - lvgl.widget.hide: lbl_api_connection
 
-ota:
-  - platform: esphome
-    password: !secret livingroom_control_panel_ota_password
-
 wifi:
-  ssid: !secret wifi_ssid
-  password: !secret wifi_password
   on_connect:
     then:
       lvgl.widget.show: lbl_wifi_connection
@@ -34,8 +27,6 @@ wifi:
       lvgl.widget.hide: lbl_wifi_connection
 
 esphome:
-  name: livingroom-control-panel
-  friendly_name: Livingroom control panel
   platformio_options:
     board_build.flash_mode: dio
 

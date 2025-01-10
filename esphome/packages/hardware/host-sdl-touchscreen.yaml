@@ -1,0 +1,18 @@
+display:
+  - platform: sdl
+    id: my_display
+    show_test_card: false
+    update_interval: never
+    auto_clear_enabled: false
+    dimensions:
+      width: 480
+      height: 480
+
+touchscreen:
+  platform: sdl
+  id: my_touchscreen
+  display: my_display
+  on_touch:
+    - logger.log:
+        format: Touch at (%d, %d)
+        args: [touch.x, touch.y]

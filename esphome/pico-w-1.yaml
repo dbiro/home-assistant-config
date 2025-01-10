@@ -1,30 +1,13 @@
-esphome:
-  name: pico-w-1
-  friendly_name: Pico W 1
+substitutions:
+  esphome_node_name: pico-w-1
+  esphome_node_friendly_name: Pico W 1
+
+packages:
+  device_base: !include packages/core/device-base.yaml
+  wifi: !include packages/core/wifi.yaml
 
 rp2040:
   board: rpipicow
-
-# Enable logging
-logger:
-
-# Enable Home Assistant API
-api:
-  encryption:
-    key: "o7GH7eTZLB9WVn4Y+uc1APScUiJaXaLyBXQ5hwd5XbI="
-
-ota:
-  password: "d7523ecc485afb775a8298543b9c8ed1"
-  platform: "esphome"
-
-wifi:
-  ssid: !secret wifi_ssid
-  password: !secret wifi_password
-  power_save_mode: none
-  # Enable fallback hotspot in case wifi connection fails
-  ap:
-    ssid: "Pico-W-1 Fallback Hotspot"
-    password: "jIsIqVokFA1a"
 
 light:
   - platform: status_led

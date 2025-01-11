@@ -1,3 +1,5 @@
+esphome: {}  # supress VS Code syntax warning
+
 lvgl:
   displays:
     - my_display
@@ -87,8 +89,8 @@ lvgl:
         grid_columns: [fr(1), content, fr(1)]
         pad_column: 0
       pad_top: 0
-      pad_left: 20
-      pad_right: 20
+      pad_left: 15
+      pad_right: 15
       pad_bottom: 5
       widgets:
         - arc:
@@ -99,16 +101,16 @@ lvgl:
             grid_cell_column_span: 3
             grid_cell_x_align: center
             grid_cell_y_align: center
-            adjustable: false            
+            adjustable: false
             value: 100
-            width: 300
-            height: 300
+            width: 310
+            height: 310
             translate_y: 8
-            arc_width: 4
+            arc_width: 3
             indicator:
               arc_color: color_heating
               arc_opa: transp
-              arc_width: 4
+              arc_width: 3
         - label:
             id: "lbl_hvac_action"
             grid_cell_row_pos: 0
@@ -124,8 +126,8 @@ lvgl:
             grid_cell_column_pos: 2
             grid_cell_x_align: end
             grid_cell_y_align: center
-            height: 52
-            width: 52
+            height: 50
+            width: 50
             bg_color: color_dark_card
             widgets:
               - label:
@@ -146,8 +148,8 @@ lvgl:
             grid_cell_column_pos: 0
             grid_cell_x_align: start
             grid_cell_y_align: center
-            height: 52
-            width: 52
+            height: 50
+            width: 50
             bg_color: color_dark_card
             widgets:
               - label:
@@ -185,7 +187,7 @@ lvgl:
             grid_cell_column_pos: 2
             text: "°C"
             text_font: "roboto_28"
-            pad_top: 15
+            pad_top: 17
         - buttonmatrix:
             id: "btn_matrix_modes"
             grid_cell_row_pos: 2
@@ -210,41 +212,29 @@ lvgl:
                       checkable: true
                     on_value:
                       then:
-                        - homeassistant.action:
-                            action: "climate.set_hvac_mode"
-                            data:
-                              entity_id: "climate.gas_boiler_thermostat"
-                              hvac_mode: "heat"
                         - if:
                             condition:
                               lambda: |-
                                 return x;
                             then:
-                              lvgl.buttonmatrix.update:
-                                id: btn_matrix_modes
-                                items:
-                                  checked:
-                                    bg_color: color_heating
-                                    bg_opa: "20%"
+                              - homeassistant.action:
+                                  action: "climate.set_hvac_mode"
+                                  data:
+                                    entity_id: "climate.gas_boiler_thermostat"
+                                    hvac_mode: "heat"
                   - text: "\U000F0906"
                     id: btn_off
                     control:
                       checkable: true
                     on_value:
                       then:
-                        - homeassistant.action:
-                            action: "climate.set_hvac_mode"
-                            data:
-                              entity_id: "climate.gas_boiler_thermostat"
-                              hvac_mode: "off"
                         - if:
                             condition:
                               lambda: |-
                                 return x;
                             then:
-                              lvgl.buttonmatrix.update:
-                                id: btn_matrix_modes
-                                items:
-                                  checked:
-                                    bg_color: color_dark_text
-                                    bg_opa: "20%"
+                              - homeassistant.action:
+                                  action: "climate.set_hvac_mode"
+                                  data:
+                                    entity_id: "climate.gas_boiler_thermostat"
+                                    hvac_mode: "off"

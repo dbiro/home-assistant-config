@@ -79,7 +79,7 @@ text_sensor:
                     arc_opa: cover
               - if:
                   condition: lvgl.is_paused
-                  then:          
+                  then:
                     - lvgl.resume
                     - lvgl.widget.redraw
                     - delay: 1s
@@ -137,7 +137,7 @@ text_sensor:
                 items:
                   checked:
                     bg_color: color_heating
-                    bg_opa: "20%"
+                    bg_opa: 80%
             - lvgl.matrix.button.update:
                 id: btn_heat
                 control:
@@ -148,7 +148,7 @@ text_sensor:
                 items:
                   checked:
                     bg_color: color_dark_text
-                    bg_opa: "20%"
+                    bg_opa: 60%
             - lvgl.matrix.button.update:
                 id: btn_off
                 control:

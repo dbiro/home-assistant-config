@@ -1,3 +1,4 @@
+esphome: {}  # supress VS Code syntax warning
 #----------------------------------------------
 # Color and dark theme configuration for LVGL
 #----------------------------------------------

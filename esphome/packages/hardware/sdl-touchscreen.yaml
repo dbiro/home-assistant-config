@@ -1,0 +1,34 @@
+esphome: {}  # supress VS Code syntax warning
+
+display:
+  - platform: sdl
+    id: my_display
+    show_test_card: false
+    update_interval: never
+    auto_clear_enabled: false
+    dimensions:
+      width: ${sdl_display_width}
+      height: ${sdl_display_height}
+
+touchscreen:
+  platform: sdl
+  id: my_touchscreen
+  display: my_display
+  on_touch:
+    - logger.log:
+        format: Touch at (%d, %d)
+        args: [touch.x, touch.y]
+
+light:
+  - platform: monochromatic
+    name: "SDL Display Backlight"
+    output: fake_backlight_output
+    id: display_backlight
+
+output:
+  - platform: template
+    id: fake_backlight_output
+    type: float
+    write_action:
+      - lambda: |-
+          ESP_LOGD("fake_light", "Fake brightness level: %.2f", state);

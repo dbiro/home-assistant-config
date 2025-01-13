@@ -1,0 +1,18 @@
+substitutions:
+  esphome_node_name: host-dev-node
+  esphome_node_friendly_name: Host Dev Node
+
+packages:
+  device_base: !include packages/core/device-base.yaml
+  wifi: !include packages/core/wifi.yaml
+  homeassistant: !include packages/homeassistant/homeassistant.yaml
+  lvgl: !include packages/lvgl/control-panel/control-panel.yaml
+  lvgl_fonts: !include packages/lvgl/fonts.yaml
+  lvgl_colors: !include packages/lvgl/colors.yaml
+  sdl: !include
+    file: packages/hardware/sdl-touchscreen.yaml
+    vars:
+      sdl_display_width: 480
+      sdl_display_height: 480
+
+host:

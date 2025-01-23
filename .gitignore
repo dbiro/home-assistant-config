@@ -6,5 +6,5 @@
 !esphome/
 esphome/trash
 esphome/secrets.yaml
-esphome/source
+esphome/dev/src
 esphome/venv

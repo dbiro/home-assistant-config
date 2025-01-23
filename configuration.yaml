@@ -77,12 +77,12 @@ climate:
     ac_mode: false
     heater: switch.gas_boiler_switch
     target_sensor: sensor.livingroom_temp_sensor_temperature
-    min_temp: 17
-    max_temp: 28
+    min_temp: 18
+    max_temp: 25
     cold_tolerance: 0.1
     hot_tolerance: 0.1
     precision: 0.1
-    target_temp_step: 0.5
+    target_temp_step: 0.1
     keep_alive:
       seconds: 30
 

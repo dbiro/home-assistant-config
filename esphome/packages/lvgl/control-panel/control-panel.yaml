@@ -140,7 +140,8 @@ lvgl:
                   action: "climate.set_temperature"
                   data:
                     entity_id: "climate.gas_boiler_thermostat"
-                    temperature: !lambda return id(ha_gas_boiler_temp_sensor).state + 0.5;
+                    temperature: !lambda
+                      return id(ha_gas_boiler_temp_sensor).state + id(ha_gas_boiler_target_temp_step_sensor).state;
                     
         - button:
             id: "btn_decrease_target_temp"
@@ -162,7 +163,8 @@ lvgl:
                   action: "climate.set_temperature"
                   data:
                     entity_id: "climate.gas_boiler_thermostat"
-                    temperature: !lambda return id(ha_gas_boiler_temp_sensor).state - 0.5;
+                    temperature: !lambda
+                      return id(ha_gas_boiler_temp_sensor).state - id(ha_gas_boiler_target_temp_step_sensor).state;
         - label:
             id: "lbl_current_temp"
             grid_cell_row_pos: 2

@@ -6,41 +6,13 @@ packages:
   device_base: !include packages/core/device-base.yaml
   wifi: !include packages/core/wifi.yaml
   sensecap_indicator: !include packages/hardware/guiton-touchscreen.yaml
-  homeassistant: !include packages/lvgl/homeassistant.yaml
+  lvgl_homeassistant: !include packages/lvgl/homeassistant.yaml
   lvgl_fonts: !include packages/lvgl/fonts.yaml
   lvgl_colors: !include packages/lvgl/colors.yaml
+  lvgl_api: !include packages/lvgl//triggers/api.yaml
+  lvgl_wifi: !include packages/lvgl/triggers/wifi.yaml
   lvgl: !include packages/lvgl/control-panel.yaml
 
 esphome:
   platformio_options:
     board_build.flash_mode: dio
-
-api:
-  on_client_connected:
-    then:
-      lvgl.widget.show: lbl_api_connection
-  on_client_disconnected:
-    then:
-      - if:
-          condition:
-            - not: api.connected
-          then:
-            - lvgl.widget.hide: lbl_api_connection
-
-wifi:
-  on_connect:
-    then:
-      lvgl.widget.show: lbl_wifi_connection
-  on_disconnect:
-    then:
-      lvgl.widget.hide: lbl_wifi_connection
-    
-touchscreen:
-  on_touch:
-    - if:
-        condition: lvgl.is_paused
-        then:
-          - lvgl.resume
-          - lvgl.widget.redraw
-          - delay: 1s
-          - light.turn_on: display_backlight

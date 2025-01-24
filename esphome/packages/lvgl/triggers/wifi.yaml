@@ -1,0 +1,10 @@
+# -----------------------------
+# Setup Wi-i triggers
+# -----------------------------
+wifi:
+  on_connect:
+    then:
+      lvgl.widget.show: lbl_wifi_connection
+  on_disconnect:
+    then:
+      lvgl.widget.hide: lbl_wifi_connection

@@ -1,0 +1,14 @@
+# -----------------------------
+# Setup API triggers
+# -----------------------------
+api:
+  on_client_connected:
+    then:
+      lvgl.widget.show: lbl_api_connection
+  on_client_disconnected:
+    then:
+      - if:
+          condition:
+            - not: api.connected
+          then:
+            - lvgl.widget.hide: lbl_api_connection

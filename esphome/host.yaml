@@ -4,10 +4,11 @@ substitutions:
 
 packages:
   device_base: !include packages/core/device-base.yaml
-  homeassistant: !include packages/lvgl/homeassistant.yaml
-  lvgl: !include packages/lvgl/control-panel.yaml
   lvgl_fonts: !include packages/lvgl/fonts.yaml
   lvgl_colors: !include packages/lvgl/colors.yaml
+  lvgl_homeassistant: !include packages/lvgl/homeassistant.yaml
+  lvgl_api: !include packages/lvgl/triggers/api.yaml
+  lvgl: !include packages/lvgl/control-panel.yaml
   sdl: !include
     file: packages/hardware/sdl-touchscreen.yaml
     vars:
@@ -22,22 +23,7 @@ logger:
   level: DEBUG
 
 # -----------------------------
-# Setup API triggers
-# -----------------------------
-api:
-  on_client_connected:
-    then:
-      lvgl.widget.show: lbl_api_connection
-  on_client_disconnected:
-    then:
-      - if:
-          condition:
-            - not: api.connected
-          then:
-            - lvgl.widget.hide: lbl_api_connection
-
-# -----------------------------
-# Setup fake Wi-Fi triggers
+# Display Wi-Fi icon without WiFi
 # -----------------------------
 esphome:
   on_boot:

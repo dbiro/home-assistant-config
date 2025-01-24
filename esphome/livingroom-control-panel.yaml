@@ -6,10 +6,10 @@ packages:
   device_base: !include packages/core/device-base.yaml
   wifi: !include packages/core/wifi.yaml
   sensecap_indicator: !include packages/hardware/guiton-touchscreen.yaml
-  homeassistant: !include packages/homeassistant/homeassistant.yaml
+  homeassistant: !include packages/lvgl/homeassistant.yaml
   lvgl_fonts: !include packages/lvgl/fonts.yaml
   lvgl_colors: !include packages/lvgl/colors.yaml
-  lvgl: !include packages/lvgl/control-panel/control-panel.yaml
+  lvgl: !include packages/lvgl/control-panel.yaml
 
 esphome:
   platformio_options:

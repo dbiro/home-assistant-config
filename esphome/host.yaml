@@ -4,8 +4,8 @@ substitutions:
 
 packages:
   device_base: !include packages/core/device-base.yaml
-  homeassistant: !include packages/homeassistant/homeassistant.yaml
-  lvgl: !include packages/lvgl/control-panel/control-panel.yaml
+  homeassistant: !include packages/lvgl/homeassistant.yaml
+  lvgl: !include packages/lvgl/control-panel.yaml
   lvgl_fonts: !include packages/lvgl/fonts.yaml
   lvgl_colors: !include packages/lvgl/colors.yaml
   sdl: !include
@@ -14,9 +14,32 @@ packages:
       sdl_display_width: 480
       sdl_display_height: 480
 
+host:
+
 ota: !remove
 
 logger:
   level: DEBUG
 
-host:
+# -----------------------------
+# Setup API triggers
+# -----------------------------
+api:
+  on_client_connected:
+    then:
+      lvgl.widget.show: lbl_api_connection
+  on_client_disconnected:
+    then:
+      - if:
+          condition:
+            - not: api.connected
+          then:
+            - lvgl.widget.hide: lbl_api_connection
+
+# -----------------------------
+# Setup fake Wi-Fi triggers
+# -----------------------------
+esphome:
+  on_boot:
+    then:
+      lvgl.widget.show: lbl_wifi_connection

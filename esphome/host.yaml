@@ -16,4 +16,7 @@ packages:
 
 ota: !remove
 
+logger:
+  level: DEBUG
+
 host:

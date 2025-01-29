@@ -1,0 +1,4 @@
+packages:
+  api: !include api.yaml
+  wifi: !include wifi.yaml
+  touchscreen: !include touchscreen.yaml

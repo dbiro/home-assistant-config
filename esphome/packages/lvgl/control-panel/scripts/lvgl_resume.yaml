@@ -1,0 +1,11 @@
+script:
+  - id: lvgl_resume
+    mode: single
+    then:
+      - if:
+          condition: lvgl.is_paused
+          then:
+            - lvgl.resume:
+            - lvgl.widget.redraw:
+            - delay: 1s
+            - light.turn_on: display_backlight

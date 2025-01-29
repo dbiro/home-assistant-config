@@ -1,0 +1,7 @@
+packages:
+  lvgl_homeassistant: !include homeassistant.yaml
+  lvgl_fonts: !include fonts.yaml
+  lvgl_colors: !include colors.yaml
+  lvgl_scripts: !include scripts/scripts.yaml
+  lvgl_triggers: !include triggers/triggers.yaml
+  lvgl: !include lvgl.yaml

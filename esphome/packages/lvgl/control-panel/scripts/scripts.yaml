@@ -1,0 +1,3 @@
+packages:
+  lvgl_pause: !include lvgl_pause.yaml
+  lvgl_resume: !include lvgl_resume.yaml

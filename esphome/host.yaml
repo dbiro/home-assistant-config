@@ -4,18 +4,22 @@ substitutions:
 
 packages:
   device_base: !include packages/core/device-base.yaml
-  lvgl_fonts: !include packages/lvgl/fonts.yaml
-  lvgl_colors: !include packages/lvgl/colors.yaml
-  lvgl_homeassistant: !include packages/lvgl/homeassistant.yaml
-  lvgl_api: !include packages/lvgl/triggers/api.yaml
-  lvgl: !include packages/lvgl/control-panel.yaml
   sdl: !include
     file: packages/hardware/sdl-touchscreen.yaml
     vars:
       sdl_display_width: 480
       sdl_display_height: 480
+  lvgl_homeassistant: !include packages/lvgl/control-panel/homeassistant.yaml
+  lvgl_fonts: !include packages/lvgl/control-panel/fonts.yaml
+  lvgl_colors: !include packages/lvgl/control-panel/colors.yaml
+  lvgl_scripts: !include packages/lvgl/control-panel/scripts/scripts.yaml
+  lvgl_api_trigger: !include packages/lvgl/control-panel/triggers/api.yaml
+  lvgl_touchscreen_trigger: !include packages/lvgl/control-panel/triggers/api.yaml
+  lvgl: !include packages/lvgl/control-panel/lvgl.yaml
 
 host:
+
+#wifi: !remove IT IS NOT WORKING!! THIS IS WHERE 'YQ' HELPS
 
 ota: !remove
 

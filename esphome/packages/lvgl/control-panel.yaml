@@ -103,8 +103,8 @@ lvgl:
             grid_cell_y_align: center
             adjustable: false
             value: 100
-            width: 310
-            height: 310
+            width: 315
+            height: 315
             translate_y: 8
             arc_width: 3
             indicator:
@@ -118,7 +118,7 @@ lvgl:
             grid_cell_x_align: center
             grid_cell_y_align: end
             text: "-"
-            text_font: "roboto_24"
+            text_font: "roboto_32"
             pad_bottom: 8
         - button:
             id: "btn_increase_target_temp"
@@ -172,7 +172,7 @@ lvgl:
             grid_cell_x_align: center
             grid_cell_y_align: start
             text: "--.- °C"
-            text_font: "roboto_24"
+            text_font: "roboto_32"
             pad_top: 10
         - label:
             id: "lbl_target_temp"

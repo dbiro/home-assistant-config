@@ -34,13 +34,6 @@ font:
     size: 24
     id: "roboto_24"
     bpp: 4
-    extras:
-      - file: "fonts/materialdesignicons-webfont.ttf"
-        glyphs: [
-          "\U000F050F",  # mdi:thermometer
-          "\U000F0438",  # mdi:radiator
-          "\U000F0150"   # mdi:clock-outline
-        ]
   - file: "fonts/Roboto-Regular.ttf"
     size: 26
     id: "roboto_26"
@@ -55,6 +48,17 @@ font:
     size: 28
     id: "roboto_28"
     bpp: 4
+  - file: "fonts/Roboto-Regular.ttf"
+    size: 32
+    id: "roboto_32"
+    bpp: 4
+    extras:
+      - file: "fonts/materialdesignicons-webfont.ttf"
+        glyphs: [
+          "\U000F050F",  # mdi:thermometer
+          "\U000F0438",  # mdi:radiator
+          "\U000F0150"   # mdi:clock-outline
+        ]
   - file: "fonts/Roboto-Regular.ttf"
     size: 96
     id: "roboto_96"

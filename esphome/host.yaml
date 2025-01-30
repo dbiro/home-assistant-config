@@ -20,7 +20,7 @@ packages:
 
 host:
 
-#wifi: !remove IT IS NOT WORKING!! THIS IS WHERE 'YQ' HELPS
+#wifi: !remove IT IS NOT WORKING!!
 
 ota: !remove
 

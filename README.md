@@ -1,2 +1,2 @@
 # home-assistant-config
-My Home Assistant configuration written manually in YAML
+This is my YAML only **Home Assistant** and [**ESPHome**](https://github.com/dbiro/home-assistant-config/blob/main/esphome/README.yaml) configuration. 

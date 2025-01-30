@@ -1,10 +1,10 @@
 /*
 !.gitignore
 !configuration.yaml
+!CODEOWNERS
 !custom_templates/
 !openssl/
 !esphome/
 esphome/trash
 esphome/secrets.yaml
-esphome/dev/src
 esphome/venv

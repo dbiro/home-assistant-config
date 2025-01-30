@@ -1,3 +1,6 @@
+defaults:
+  idle_timeout: 30min
+
 lvgl:
   displays:
     - my_display
@@ -5,17 +8,14 @@ lvgl:
     - my_touchscreen
   default_font: "roboto_14"
   on_idle:
-    timeout: 30min
+    timeout: ${idle_timeout}
     then:
-      if:
-        condition:
-          lambda: |-
-            return id(ha_gas_boiler_hvac_action_sensor).state != "Heating";
-        then:
-          - light.turn_off: display_backlight
-          - delay: 1s
-          - lvgl.pause:
-              show_snow: true
+      - if:
+          condition:
+            lambda: |-
+              return id(ha_gas_boiler_hvac_action_sensor).state != "Heating";
+          then:
+            - script.execute: lvgl_pause
   top_layer:
     widgets:
       - obj:

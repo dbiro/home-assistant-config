@@ -2,12 +2,7 @@ script:
   - id: lvgl_pause
     mode: single
     then:
-      - if:
-          condition:
-            lambda: |-
-              return id(ha_gas_boiler_hvac_action_sensor).state != "Heating";
-          then:
-            - light.turn_off: display_backlight
-            - delay: 1s
-            - lvgl.pause:
-                show_snow: true
+      - light.turn_off: display_backlight
+      - delay: 1s
+      - lvgl.pause:
+          show_snow: true

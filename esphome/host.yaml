@@ -15,7 +15,10 @@ packages:
   lvgl_scripts: !include packages/lvgl/control-panel/scripts/scripts.yaml
   lvgl_api_trigger: !include packages/lvgl/control-panel/triggers/api.yaml
   lvgl_touchscreen_trigger: !include packages/lvgl/control-panel/triggers/api.yaml
-  lvgl: !include packages/lvgl/control-panel/lvgl.yaml
+  lvgl: !include
+    file: packages/lvgl/control-panel/lvgl.yaml
+    vars:
+      idle_timeout: 5sec
 
 host:
 

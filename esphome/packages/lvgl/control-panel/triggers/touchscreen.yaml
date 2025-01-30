@@ -1,9 +1,3 @@
 touchscreen:
   on_touch:
-    - if:
-        condition: lvgl.is_paused
-        then:
-          - lvgl.resume:
-          - lvgl.widget.redraw:
-          - delay: 1s
-          - light.turn_on: display_backlight
+    - script.execute: lvgl_resume

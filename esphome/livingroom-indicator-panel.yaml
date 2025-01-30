@@ -24,12 +24,6 @@ binary_sensor:
         - if:
             condition: lvgl.is_paused
             then:
-              - lvgl.resume
-              - lvgl.widget.redraw
-              - delay: 0.5s
-              - light.turn_on: display_backlight
+              - script.execute: lvgl_resume
             else:
-              - light.turn_off: display_backlight
-              - delay: 1s
-              - lvgl.pause:
-                  show_snow: true
+              - script.execute: lvgl_pause

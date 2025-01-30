@@ -9,8 +9,7 @@ lvgl:
     then:
       - if:
           condition:
-            lambda: |-
-              return id(ha_gas_boiler_hvac_action_sensor).state != "Heating";
+            binary_sensor.is_off: keep_display_on
           then:
             - script.execute: lvgl_pause
   style_definitions:

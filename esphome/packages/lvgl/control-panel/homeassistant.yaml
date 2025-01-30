@@ -51,6 +51,31 @@ sensor:
     entity_id: climate.gas_boiler_thermostat
     attribute: target_temp_step
 
+binary_sensor:
+  - platform: template
+    id: keep_display_on
+    internal: true
+    lambda: |-
+      if (id(ha_gas_boiler_hvac_action_sensor).state == "Heating") {
+        return true;
+      } else {
+        return false;
+      }
+    on_state:
+      then:
+        if:
+          condition:
+            lambda: return x;
+          then:
+            script.execute: lvgl_resume
+          else:
+             if:
+              condition: 
+                lvgl.is_idle:
+                  timeout: ${lvgl_idle_timeout}
+              then:
+                script.execute: lvgl_pause
+
 text_sensor:
   - platform: homeassistant
     id: ha_gas_boiler_hvac_action_sensor
@@ -79,17 +104,10 @@ text_sensor:
                   id: arc_hvac_action
                   indicator:
                     arc_opa: cover
-              - script.execute: lvgl_resume
             else:
               - lvgl.label.update:
                   id: lbl_current_temp
                   text_color: color_dark_text
-              - if:
-                  condition: 
-                    lvgl.is_idle:
-                      timeout: ${lvgl_idle_timeout}
-                  then:
-                    - script.execute: lvgl_pause
               - if:
                   condition: 
                     lambda: |-

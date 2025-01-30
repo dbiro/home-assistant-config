@@ -19,3 +19,5 @@ color:
     hex: 282b30
   - id: color_dark_text # lvgl:DARK_COLOR_TEXT / mc: grey-lighten-5
     hex: FAFAFA
+  - id: color_dark_screen # lvgl: DARK_COLOR_SCR
+    hex: 15171A

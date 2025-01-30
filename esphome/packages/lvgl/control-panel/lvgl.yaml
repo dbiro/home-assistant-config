@@ -15,10 +15,16 @@ lvgl:
             - script.execute: lvgl_pause
   style_definitions:
     - id: header_label
-      text_font: "roboto_24"
+      text_font: "roboto_28"
       text_color: color_light_blue_main
       text_align: center
       height: 50
+    - id: header_cover
+      bg_color: color_dark_screen
+      bg_opa: cover
+      border_width: 0
+      height: 50
+      width: 120
     - id: target_temp_button
       height: 50
       width: 50
@@ -39,12 +45,19 @@ lvgl:
       text_font: roboto_32
   top_layer:
     scrollable: false
+    pad_all: 5
     widgets:
+      - obj:
+          styles: header_cover
+          align: top_left
+      - obj:
+          styles: header_cover
+          align: top_right
       - label:
           id: lbl_time
           align: top_left
           styles: header_label
-          text: "--:--"
+          text: "--:--"      
       - obj:
           id: "connections_container"
           border_width: 0
@@ -83,6 +96,7 @@ lvgl:
         grid_rows: [fr(1), content, fr(1)]
         grid_columns: [fr(1), content, fr(1)]
         pad_column: 0
+      pad_all: 5
       widgets:
         - arc:
             id: "arc_hvac_action"
@@ -94,9 +108,8 @@ lvgl:
             grid_cell_y_align: center
             adjustable: false
             value: 100
-            width: 315
-            height: 315
-            translate_y: 8
+            width: 335
+            height: 335
             arc_width: 3
             indicator:
               arc_color: color_heating
@@ -110,7 +123,6 @@ lvgl:
             grid_cell_y_align: end
             text: "-"
             styles: secondary_info_label
-            pad_bottom: 8
         - label:
             id: "lbl_current_temp"
             grid_cell_row_pos: 2
@@ -119,7 +131,6 @@ lvgl:
             grid_cell_y_align: start
             text: "--.- °C"
             styles: secondary_info_label
-            pad_top: 10
         - button:
             id: "btn_increase_target_temp"
             grid_cell_row_pos: 1
@@ -166,14 +177,17 @@ lvgl:
             grid_cell_y_align: center
             text: "--.-"
             text_font: "roboto_96"
-            pad_all: 0
+            pad_top: 10
+            pad_bottom: 10
+            pad_left: 0
+            pad_right: 0
         - label:
             id: "lbl_target_temp_unit"
             grid_cell_row_pos: 1
             grid_cell_column_pos: 2
             text: "°C"
             text_font: "roboto_28"
-            pad_top: 17
+            pad_top: 26
         - buttonmatrix:
             id: "btn_matrix_modes"
             grid_cell_row_pos: 2

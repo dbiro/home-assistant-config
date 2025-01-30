@@ -23,7 +23,7 @@ lvgl:
       bg_opa: cover
       border_width: 0
       height: 50
-      width: 120
+      width: 100
     - id: target_temp_button
       height: 50
       width: 50
@@ -90,153 +90,179 @@ lvgl:
             lv_theme_t * darkth = lv_theme_default_init(NULL, lv_palette_main(LV_PALETTE_LIGHT_BLUE), lv_palette_main(LV_PALETTE_AMBER), true, lv_theme_get_font_normal(NULL));
             lv_disp_set_theme(NULL, darkth);
             ESP_LOGD("main_page", "Dark theme configured successfully.");
-      layout:
-        type: grid
-        grid_rows: [fr(1), content, fr(1)]
-        grid_columns: [fr(1), content, fr(1)]
-        pad_column: 0
       pad_all: 5
       widgets:
-        - arc:
-            id: "arc_hvac_action"
-            grid_cell_row_pos: 0
-            grid_cell_column_pos: 0
-            grid_cell_row_span: 3
-            grid_cell_column_span: 3
-            grid_cell_x_align: center
-            grid_cell_y_align: center
-            adjustable: false
-            value: 100
-            width: 335
-            height: 335
-            arc_width: 3
-            indicator:
-              arc_color: color_heating
-              arc_opa: transp
-              arc_width: 3
-        - label:
-            id: "lbl_hvac_action"
-            grid_cell_row_pos: 0
-            grid_cell_column_pos: 1
-            grid_cell_x_align: center
-            grid_cell_y_align: end
-            text: "-"
-            styles: secondary_info_label
-        - label:
-            id: "lbl_current_temp"
-            grid_cell_row_pos: 2
-            grid_cell_column_pos: 1
-            grid_cell_x_align: center
-            grid_cell_y_align: start
-            text: "--.- °C"
-            styles: secondary_info_label
-        - button:
-            id: "btn_increase_target_temp"
-            grid_cell_row_pos: 1
-            grid_cell_column_pos: 2
-            grid_cell_x_align: end
-            grid_cell_y_align: center
-            styles: target_temp_button
-            widgets:
-              - label:
-                  text: "+"
-                  styles: target_temp_button_label
-            on_click:
-              then:
-                homeassistant.action:
-                  action: "climate.set_temperature"
-                  data:
-                    entity_id: "climate.gas_boiler_thermostat"
-                    temperature: !lambda
-                      return id(ha_gas_boiler_temp_sensor).state + id(ha_gas_boiler_target_temp_step_sensor).state;
-        - button:
-            id: "btn_decrease_target_temp"
-            grid_cell_row_pos: 1
-            grid_cell_column_pos: 0
-            grid_cell_x_align: start
-            grid_cell_y_align: center
-            styles: target_temp_button
-            widgets:
-              - label:
-                  text: "-"
-                  styles: target_temp_button_label
-            on_click:
-              then:
-                homeassistant.action:
-                  action: "climate.set_temperature"
-                  data:
-                    entity_id: "climate.gas_boiler_thermostat"
-                    temperature: !lambda
-                      return id(ha_gas_boiler_temp_sensor).state - id(ha_gas_boiler_target_temp_step_sensor).state;
-        - label:
-            id: "lbl_target_temp"
-            grid_cell_row_pos: 1
-            grid_cell_column_pos: 1
-            grid_cell_x_align: center
-            grid_cell_y_align: center
-            text: "--.-"
-            text_font: "roboto_96"
-            pad_top: 10
-            pad_bottom: 10
-            pad_left: 0
-            pad_right: 0
-        - label:
-            id: "lbl_target_temp_unit"
-            grid_cell_row_pos: 1
-            grid_cell_column_pos: 2
-            text: "°C"
-            text_font: "roboto_28"
-            pad_top: 26
-        - buttonmatrix:
-            id: "btn_matrix_modes"
-            grid_cell_row_pos: 2
-            grid_cell_column_span: 3
-            grid_cell_column_pos: 0
-            grid_cell_x_align: center
-            grid_cell_y_align: end
-            one_checked: true
-            styles: hvac_toggle_button_matrix
-            items:
-              styles: hvac_toggle_button
-            rows:
-              - buttons:
-                  - text: "\U000F0238"
-                    id: btn_heat
-                    control:
-                      checkable: true
-                    on_value:
-                      then:
-                        - if:
-                            condition:
-                              lambda: |-
-                                return x;
-                            then:
-                              - homeassistant.action:
-                                  action: "climate.set_hvac_mode"
-                                  data:
-                                    entity_id: "climate.gas_boiler_thermostat"
-                                    hvac_mode: "heat"
-                  - text: "\U000F0906"
-                    id: btn_off
-                    control:
-                      checkable: true
-                    on_value:
-                      then:
-                        - if:
-                            condition:
-                              lambda: |-
-                                return x;
-                            then:
-                              - homeassistant.action:
-                                  action: "climate.set_hvac_mode"
-                                  data:
-                                    entity_id: "climate.gas_boiler_thermostat"
-                                    hvac_mode: "off"
-        - label:
-            id: "lbl_title"
-            text: "\U000F0393 GAS BOILER"
-            styles: header_label
-            grid_cell_x_align: center
-            grid_cell_row_pos: 0
-            grid_cell_column_pos: 0
-            grid_cell_column_span: 3
+        - tileview:
+            id: main_view
+            main:
+              pad_bottom: 20
+            tiles:
+              - id: tile_gas_boiler_thermostat
+                row: 0
+                column: 0
+                dir: hor
+                layout:
+                  type: grid
+                  grid_rows: [fr(1), content, fr(1)]
+                  grid_columns: [fr(1), content, fr(1)]
+                  pad_column: 0
+                  pad_row: 0
+                widgets:
+                  - arc:
+                      id: "arc_hvac_action"
+                      grid_cell_row_pos: 0
+                      grid_cell_column_pos: 0
+                      grid_cell_row_span: 3
+                      grid_cell_column_span: 3
+                      grid_cell_x_align: center
+                      grid_cell_y_align: center
+                      adjustable: false
+                      value: 100
+                      width: 335
+                      height: 335
+                      arc_width: 3
+                      indicator:
+                        arc_color: color_heating
+                        arc_opa: transp
+                        arc_width: 3
+                  - label:
+                      id: "lbl_hvac_action"
+                      grid_cell_row_pos: 0
+                      grid_cell_column_pos: 1
+                      grid_cell_x_align: center
+                      grid_cell_y_align: end
+                      text: "-"
+                      styles: secondary_info_label
+                  - label:
+                      id: "lbl_current_temp"
+                      grid_cell_row_pos: 2
+                      grid_cell_column_pos: 1
+                      grid_cell_x_align: center
+                      grid_cell_y_align: start
+                      text: "--.- °C"
+                      styles: secondary_info_label
+                  - button:
+                      id: "btn_increase_target_temp"
+                      grid_cell_row_pos: 1
+                      grid_cell_column_pos: 2
+                      grid_cell_x_align: end
+                      grid_cell_y_align: center
+                      styles: target_temp_button
+                      widgets:
+                        - label:
+                            text: "+"
+                            styles: target_temp_button_label
+                      on_click:
+                        then:
+                          homeassistant.action:
+                            action: "climate.set_temperature"
+                            data:
+                              entity_id: "climate.gas_boiler_thermostat"
+                              temperature: !lambda
+                                return id(ha_gas_boiler_temp_sensor).state + id(ha_gas_boiler_target_temp_step_sensor).state;
+                  - button:
+                      id: "btn_decrease_target_temp"
+                      grid_cell_row_pos: 1
+                      grid_cell_column_pos: 0
+                      grid_cell_x_align: start
+                      grid_cell_y_align: center
+                      styles: target_temp_button
+                      widgets:
+                        - label:
+                            text: "-"
+                            styles: target_temp_button_label
+                      on_click:
+                        then:
+                          homeassistant.action:
+                            action: "climate.set_temperature"
+                            data:
+                              entity_id: "climate.gas_boiler_thermostat"
+                              temperature: !lambda
+                                return id(ha_gas_boiler_temp_sensor).state - id(ha_gas_boiler_target_temp_step_sensor).state;
+                  - label:
+                      id: "lbl_target_temp"
+                      grid_cell_row_pos: 1
+                      grid_cell_column_pos: 1
+                      grid_cell_x_align: center
+                      grid_cell_y_align: center
+                      text: "--.-"
+                      text_font: "roboto_96"
+                      pad_top: 10
+                      pad_bottom: 10
+                      pad_left: 0
+                      pad_right: 0
+                  - label:
+                      id: "lbl_target_temp_unit"
+                      grid_cell_row_pos: 1
+                      grid_cell_column_pos: 2
+                      text: "°C"
+                      text_font: "roboto_28"
+                      pad_top: 26
+                  - buttonmatrix:
+                      id: "btn_matrix_modes"
+                      grid_cell_row_pos: 2
+                      grid_cell_column_span: 3
+                      grid_cell_column_pos: 0
+                      grid_cell_x_align: center
+                      grid_cell_y_align: end
+                      one_checked: true
+                      styles: hvac_toggle_button_matrix
+                      items:
+                        styles: hvac_toggle_button
+                      rows:
+                        - buttons:
+                            - text: "\U000F0238"
+                              id: btn_heat
+                              control:
+                                checkable: true
+                              on_value:
+                                then:
+                                  - if:
+                                      condition:
+                                        lambda: |-
+                                          return x;
+                                      then:
+                                        - homeassistant.action:
+                                            action: "climate.set_hvac_mode"
+                                            data:
+                                              entity_id: "climate.gas_boiler_thermostat"
+                                              hvac_mode: "heat"
+                            - text: "\U000F0906"
+                              id: btn_off
+                              control:
+                                checkable: true
+                              on_value:
+                                then:
+                                  - if:
+                                      condition:
+                                        lambda: |-
+                                          return x;
+                                      then:
+                                        - homeassistant.action:
+                                            action: "climate.set_hvac_mode"
+                                            data:
+                                              entity_id: "climate.gas_boiler_thermostat"
+                                              hvac_mode: "off"
+                  - label:
+                      id: "lbl_title_gas_boiler"
+                      text: "\U000F0393 GAS BOILER"
+                      styles: header_label
+                      grid_cell_x_align: center
+                      grid_cell_row_pos: 0
+                      grid_cell_column_pos: 0
+                      grid_cell_column_span: 3
+              - id: tile_garage_openings
+                row: 0
+                column: 1
+                dir: hor
+                widgets:
+                  - label:
+                      id: lbl_garage_doors
+                      text: "Coming soon ..."
+                      text_font: roboto_32
+                      align: center
+                  - label:
+                      id: "lbl_title_garage_doors"
+                      text: "\U000F06D9 GARAGE DOORS"
+                      styles: header_label
+                      align: top_mid

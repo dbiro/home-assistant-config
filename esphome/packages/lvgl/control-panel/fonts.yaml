@@ -45,6 +45,7 @@ font:
       - file: "fonts/materialdesignicons-webfont.ttf"
         glyphs: [
           "\U000F0393", # mdi:thermostat
+          "\U000F06D9", # mdi:garage
           "\U000F07D0", # mdi:home-assistant
           "\U000F05A9"  # mdi:wifi
         ]

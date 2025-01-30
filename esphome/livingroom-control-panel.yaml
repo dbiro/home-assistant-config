@@ -1,6 +1,7 @@
 substitutions:
   esphome_node_name: livingroom-control-panel
   esphome_node_friendly_name: Livingroom control panel
+  lvgl_idle_timeout: 1min
 
 packages:
   device_base: !include packages/core/device-base.yaml

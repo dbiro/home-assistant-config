@@ -6,7 +6,7 @@ packages:
   device_base: !include packages/core/device-base.yaml
   wifi: !include packages/core/wifi.yaml
   guiton_touchscreen: !include packages/hardware/guiton-touchscreen.yaml
-  lvgl_control_panel: !include packages/lvgl/control-panel.yaml
+  lvgl_control_panel: !include packages/lvgl/control-panel/control-panel.yaml
 
 esphome:
   platformio_options:

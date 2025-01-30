@@ -5,7 +5,7 @@ substitutions:
 packages:
   device_base: !include packages/core/device-base.yaml
   wifi: !include packages/core/wifi.yaml
-  sensecap_indicator: !include packages/hardware/guiton-touchscreen.yaml
+  guiton_touchscreen: !include packages/hardware/guiton-touchscreen.yaml
   lvgl_control_panel: !include packages/lvgl/control-panel.yaml
 
 esphome:

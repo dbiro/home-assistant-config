@@ -4,6 +4,7 @@
 substitutions:
   esphome_node_name: livingroom-indicator-panel
   esphome_node_friendly_name: Livingroom indicator panel
+  lvgl_idle_timeout: 30min
 
 # -----------------------------
 # Include required packages

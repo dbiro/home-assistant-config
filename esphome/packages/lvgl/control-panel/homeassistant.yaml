@@ -79,13 +79,7 @@ text_sensor:
                   id: arc_hvac_action
                   indicator:
                     arc_opa: cover
-              - if:
-                  condition: lvgl.is_paused
-                  then:
-                    - lvgl.resume
-                    - lvgl.widget.redraw
-                    - delay: 1s
-                    - light.turn_on: display_backlight
+              - script.execute: lvgl_resume
             else:
               - lvgl.label.update:
                   id: lbl_current_temp
@@ -93,12 +87,9 @@ text_sensor:
               - if:
                   condition: 
                     lvgl.is_idle:
-                      timeout: 30min
+                      timeout: ${lvgl_idle_timeout}
                   then:
-                    - light.turn_off: display_backlight
-                    - delay: 1s
-                    - lvgl.pause:
-                        show_snow: true
+                    - script.execute: lvgl_pause
               - if:
                   condition: 
                     lambda: |-

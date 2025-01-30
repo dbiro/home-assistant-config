@@ -19,13 +19,6 @@ font:
     size: 20
     id: "roboto_20"
     bpp: 4
-    extras:
-      - file: "fonts/materialdesignicons-webfont.ttf"
-        glyphs: [
-          "\U000F0393", # mdi:thermostat
-          "\U000F07D0", # mdi:home-assistant
-          "\U000F05A9"  # mdi:wifi
-        ]
   - file: "fonts/Roboto-Regular.ttf"
     size: 22
     id: "roboto_22"
@@ -34,6 +27,13 @@ font:
     size: 24
     id: "roboto_24"
     bpp: 4
+    extras:
+      - file: "fonts/materialdesignicons-webfont.ttf"
+        glyphs: [
+          "\U000F0393", # mdi:thermostat
+          "\U000F07D0", # mdi:home-assistant
+          "\U000F05A9"  # mdi:wifi
+        ]
   - file: "fonts/Roboto-Regular.ttf"
     size: 26
     id: "roboto_26"

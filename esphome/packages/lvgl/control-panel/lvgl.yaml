@@ -13,63 +13,63 @@ lvgl:
               return id(ha_gas_boiler_hvac_action_sensor).state != "Heating";
           then:
             - script.execute: lvgl_pause
+  style_definitions:
+    - id: header_label
+      text_font: "roboto_24"
+      text_color: color_light_blue_main
+      text_align: center
+      height: 50
+    - id: target_temp_button
+      height: 50
+      width: 50
+      bg_color: color_dark_card
+    - id: target_temp_button_label
+      text_font: "roboto_26"
+      align: center
+    - id: hvac_toggle_button_matrix
+      height: 50
+      width: 340
+      pad_column: 0
+      pad_all: 0
+      border_width: 0
+    - id: hvac_toggle_button
+      text_font: "roboto_26"
+      bg_opa: transp
+    - id: secondary_info_label
+      text_font: roboto_32
   top_layer:
+    scrollable: false
     widgets:
+      - label:
+          id: lbl_time
+          align: top_left
+          styles: header_label
+          text: "--:--"
       - obj:
-          id: "page_header"
-          height: 50
-          width: 100%
-          bg_opa: cover
-          bg_color: color_dark_card
+          id: "connections_container"
           border_width: 0
-          border_opa: transp
-          radius: 0
-          pad_all: 10
-          scrollable: false
-          align: top_mid
+          height: 50
+          bg_opa: transp
+          pad_all: 0
+          align: top_right
+          layout:
+            type: flex
+            flex_flow: row
+            pad_row: 0
+            flex_align_main: end
+            flex_align_cross: center
+            flex_align_track: center
           widgets:
             - label:
-                id: lbl_time
-                align: left_mid
-                text: "--:--"
-                text_font: "roboto_20"
-                text_color: color_light_blue_main
-                text_align: center
+                id: "lbl_api_connection"
+                hidden: true
+                text: "\U000F07D0"
+                styles: header_label
             - label:
-                id: "lbl_title"
-                text: "\U000F0393 GAS BOILER"
-                text_font: "roboto_20"
-                text_align: center
-                text_color: color_light_blue_main
-                align: center
-            - obj:
-                id: "connections_container"
-                border_width: 0
-                bg_opa: transp
-                pad_all: 0
-                align: right_mid
-                layout:
-                  type: flex
-                  flex_flow: row
-                  pad_row: 0
-                  flex_align_main: end
-                  flex_align_cross: center
-                  flex_align_track: center
-                widgets:
-                  - label:
-                      id: "lbl_api_connection"
-                      hidden: true
-                      text: "\U000F07D0"
-                      text_font: "roboto_20"
-                      text_align: center
-                      text_color: color_light_blue_main
-                  - label:
-                      id: "lbl_wifi_connection"
-                      hidden: true
-                      text: "\U000F05A9"
-                      text_font: "roboto_20"
-                      text_align: center
-                      text_color: color_light_blue_main
+                id: "lbl_wifi_connection"
+                hidden: true
+                text: "\U000F05A9"
+                styles: header_label
   pages:
     - id: main_page
       on_load:
@@ -83,10 +83,6 @@ lvgl:
         grid_rows: [fr(1), content, fr(1)]
         grid_columns: [fr(1), content, fr(1)]
         pad_column: 0
-      pad_top: 0
-      pad_left: 15
-      pad_right: 15
-      pad_bottom: 5
       widgets:
         - arc:
             id: "arc_hvac_action"
@@ -113,22 +109,28 @@ lvgl:
             grid_cell_x_align: center
             grid_cell_y_align: end
             text: "-"
-            text_font: "roboto_32"
+            styles: secondary_info_label
             pad_bottom: 8
+        - label:
+            id: "lbl_current_temp"
+            grid_cell_row_pos: 2
+            grid_cell_column_pos: 1
+            grid_cell_x_align: center
+            grid_cell_y_align: start
+            text: "--.- °C"
+            styles: secondary_info_label
+            pad_top: 10
         - button:
             id: "btn_increase_target_temp"
             grid_cell_row_pos: 1
             grid_cell_column_pos: 2
             grid_cell_x_align: end
             grid_cell_y_align: center
-            height: 50
-            width: 50
-            bg_color: color_dark_card
+            styles: target_temp_button
             widgets:
               - label:
                   text: "+"
-                  text_font: "roboto_26"
-                  align: center
+                  styles: target_temp_button_label
             on_click:
               then:
                 homeassistant.action:
@@ -137,21 +139,17 @@ lvgl:
                     entity_id: "climate.gas_boiler_thermostat"
                     temperature: !lambda
                       return id(ha_gas_boiler_temp_sensor).state + id(ha_gas_boiler_target_temp_step_sensor).state;
-                    
         - button:
             id: "btn_decrease_target_temp"
             grid_cell_row_pos: 1
             grid_cell_column_pos: 0
             grid_cell_x_align: start
             grid_cell_y_align: center
-            height: 50
-            width: 50
-            bg_color: color_dark_card
+            styles: target_temp_button
             widgets:
               - label:
                   text: "-"
-                  text_font: "roboto_26"
-                  align: center
+                  styles: target_temp_button_label
             on_click:
               then:
                 homeassistant.action:
@@ -160,15 +158,6 @@ lvgl:
                     entity_id: "climate.gas_boiler_thermostat"
                     temperature: !lambda
                       return id(ha_gas_boiler_temp_sensor).state - id(ha_gas_boiler_target_temp_step_sensor).state;
-        - label:
-            id: "lbl_current_temp"
-            grid_cell_row_pos: 2
-            grid_cell_column_pos: 1
-            grid_cell_x_align: center
-            grid_cell_y_align: start
-            text: "--.- °C"
-            text_font: "roboto_32"
-            pad_top: 10
         - label:
             id: "lbl_target_temp"
             grid_cell_row_pos: 1
@@ -193,14 +182,9 @@ lvgl:
             grid_cell_x_align: center
             grid_cell_y_align: end
             one_checked: true
-            height: 50
-            width: 340
-            pad_column: 0
-            pad_all: 0
-            border_width: 0
+            styles: hvac_toggle_button_matrix
             items:
-              text_font: "roboto_26"
-              bg_opa: transp
+              styles: hvac_toggle_button
             rows:
               - buttons:
                   - text: "\U000F0238"
@@ -235,3 +219,11 @@ lvgl:
                                   data:
                                     entity_id: "climate.gas_boiler_thermostat"
                                     hvac_mode: "off"
+        - label:
+            id: "lbl_title"
+            text: "\U000F0393 GAS BOILER"
+            styles: header_label
+            grid_cell_x_align: center
+            grid_cell_row_pos: 0
+            grid_cell_column_pos: 0
+            grid_cell_column_span: 3

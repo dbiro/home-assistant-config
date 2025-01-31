@@ -1,0 +1,13 @@
+script:
+  - id: "lvgl_sub_page_loaded"
+    mode: single
+    parameters:
+      page_title: string
+    then:
+      - lvgl.widget.hide: lbl_time
+      - lvgl.label.update:
+          id: lbl_sub_page_title
+          text:
+            format: "\U000F004D %s"
+            args: [page_title.c_str()]
+      - lvgl.widget.show: btn_show_overview_page

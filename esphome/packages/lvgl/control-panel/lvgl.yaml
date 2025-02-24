@@ -5,7 +5,7 @@ lvgl:
     - my_touchscreen
   default_font: "roboto_14"
   on_idle:
-    - timeout: 10s
+    - timeout: 20s
       then:
         script.execute: lvgl_show_dashboard_page
     - timeout: ${lvgl_idle_timeout}
@@ -15,6 +15,8 @@ lvgl:
               binary_sensor.is_off: keep_display_on
             then:
               - script.execute: lvgl_pause
+  on_resume:
+    - script.execute: lvgl_show_dashboard_page
   style_definitions:
     - id: page_base
       pad_top: 45 # 35 height + 5 pad-top + 5 pad-bottom 

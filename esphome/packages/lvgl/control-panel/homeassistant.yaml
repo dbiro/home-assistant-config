@@ -51,31 +51,6 @@ sensor:
     entity_id: climate.gas_boiler_thermostat
     attribute: target_temp_step
 
-binary_sensor:
-  - platform: template
-    id: keep_display_on
-    internal: true
-    lambda: |-
-      if (id(ha_gas_boiler_hvac_action_sensor).state == "Heating") {
-        return true;
-      } else {
-        return false;
-      }
-    on_state:
-      then:
-        if:
-          condition:
-            lambda: return x;
-          then:
-            script.execute: lvgl_resume
-          else:
-             if:
-              condition: 
-                lvgl.is_idle:
-                  timeout: ${lvgl_idle_timeout}
-              then:
-                script.execute: lvgl_pause
-
 text_sensor:
   - platform: homeassistant
     id: ha_gas_boiler_hvac_action_sensor
@@ -93,6 +68,10 @@ text_sensor:
               lambda: |-
                 return x == "Heating";
             then:
+              - lvgl.widget.update:
+                  id: btn_gas_boiler_state
+                  state:
+                    checked: true
               - lvgl.label.update:
                   id: lbl_hvac_action
                   text_color: color_heating
@@ -108,6 +87,10 @@ text_sensor:
               - lvgl.label.update:
                   id: lbl_current_temp
                   text_color: color_dark_text
+              - lvgl.widget.update:
+                  id: btn_gas_boiler_state
+                  state:
+                    checked: false
               - if:
                   condition: 
                     lambda: |-
@@ -164,3 +147,52 @@ text_sensor:
                 id: btn_off
                 control:
                   checked: true
+
+binary_sensor:
+  - platform: homeassistant
+    id: ha_garage_door_opening_sensor
+    entity_id: binary_sensor.pico_w_1_garage_door_opening
+    publish_initial_state: true
+    on_state:
+      then:
+        lvgl.widget.update:
+          id: btn_garage_door_state
+          state:
+            checked: !lambda return x;
+
+  - platform: homeassistant
+    id: ha_sliding_gate_opening_sensor
+    entity_id: binary_sensor.pico_w_1_sliding_gate_opening
+    publish_initial_state: true
+    on_state:
+      then:
+        lvgl.widget.update:
+          id: btn_sliding_gate_state
+          state:
+            checked: !lambda return x;
+
+  - platform: template
+    id: keep_display_on
+    internal: true
+    lambda: |-
+      return
+        id(ha_gas_boiler_hvac_action_sensor).state == "Heating" or
+        id(ha_garage_door_opening_sensor).state or
+        id(ha_sliding_gate_opening_sensor).state;
+    on_state:
+      then:
+        if:
+          condition:
+            lambda: return x;
+          then:
+            - script.execute: lvgl_resume
+            - lvgl.page.show:
+                id: dashboard_page
+                animation: none
+          else:
+             if:
+              condition: 
+                lvgl.is_idle:
+                  timeout: ${lvgl_idle_timeout}
+              then:
+                script.execute: lvgl_pause

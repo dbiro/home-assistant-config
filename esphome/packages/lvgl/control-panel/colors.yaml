@@ -21,3 +21,5 @@ color:
     hex: FAFAFA
   - id: color_dark_screen # lvgl: DARK_COLOR_SCR
     hex: 15171A
+  - id: color_accent # mc: amber_main
+    hex: FFC107

@@ -13,28 +13,41 @@ lvgl:
           then:
             - script.execute: lvgl_pause
   style_definitions:
+    - id: page_base
+      pad_top: 45 # 35 height + 5 pad-top + 5 pad-bottom 
+      pad_right: 5
+      pad_bottom: 5
+      pad_left: 5
     - id: header_label
       text_font: "roboto_28"
       text_color: color_light_blue_main
       text_align: center
-    - id: target_temp_button
+    - id: climate_target_temp_button
       height: 50
       width: 50
       bg_color: color_dark_card
-    - id: target_temp_button_label
+    - id: climate_target_temp_button_label
       text_font: "roboto_26"
       align: center
-    - id: hvac_toggle_button_matrix
+    - id: climate_hvac_toggle_buttons
       height: 50
       width: 340
       pad_column: 0
       pad_all: 0
       border_width: 0
-    - id: hvac_toggle_button
+    - id: climate_hvac_toggle_button
       text_font: "roboto_26"
       bg_opa: transp
-    - id: secondary_info_label
+    - id: climate_secondary_info_label
       text_font: roboto_32
+    - id: dashboard_button
+      width: 150
+      height: 135
+      bg_color: color_dark_card
+    - id: dashboard_button_icon_label
+      text_font: "roboto_64"
+    - id: dashboard_button_name_label
+      text_font: "roboto_18"
   top_layer:
     pad_all: 5
     widgets:
@@ -55,6 +68,11 @@ lvgl:
               lvgl.page.show:
                 id: dashboard_page
                 animation: none
+      - label:
+          id: lbl_time
+          align: top_left
+          styles: header_label
+          text: "--:--"
       - label:
           id: lbl_sub_page_title
           align: top_mid
@@ -91,40 +109,138 @@ lvgl:
       on_load:
         then:
           script.execute: lvgl_dashboard_page_loaded
-      pad_all: 5
+      styles: page_base
+      layout:
+        type: flex
+        flex_flow: row_wrap
+        flex_align_main: space_evenly
+        flex_align_cross: center
+        flex_align_track: center
       widgets:
-        - label:
-            id: lbl_time
-            align: top_left
-            styles: header_label
-            text: "--:--"
-        - label:
-            id: lbl_dashboard
-            styles: header_label
-            align: top_mid
-            text: "DASHBOARD"
         - button:
-            id: btn_gas_boiler
-            width: 300
-            height: 100
-            align: center
+            id: btn_gas_boiler_state
+            styles: dashboard_button
+            layout:
+              type: flex
+              flex_flow: column
+              flex_align_main: center
+              flex_align_cross: center
+              flex_align_track: center
+            checked:
+              text_color: color_heating
+              bg_color: color_dark_card
             widgets:
               - label:
-                  text: Gas Boiler
-                  text_font: "roboto_28"
-                  align: center
+                  text: "\U000F0393"
+                  styles: dashboard_button_icon_label
+              - label:
+                  text: "Gas boiler"
+                  styles: dashboard_button_name_label
             on_click:
               then:
                 - lvgl.page.show:
                     id: gas_boiler_thermostat_page
                     animation: none
+        - button:
+            id: btn_livingroom_ac_state
+            styles: dashboard_button
+            checked:
+              text_color: color_accent
+              bg_color: color_dark_card
+            layout:
+              type: flex
+              flex_flow: column
+              flex_align_main: center
+              flex_align_cross: center
+              flex_align_track: center
+            widgets:
+              - label:
+                  text: "\U000F001B"
+                  styles: dashboard_button_icon_label
+              - label:
+                  text: "Livingroom"
+                  styles: dashboard_button_name_label
+            on_click:
+              then:
+                logger.log: "alma"
+        - button:
+            id: btn_bedroom_ac_state
+            styles: dashboard_button
+            state:
+              disabled: true
+            checked:
+              text_color: color_accent
+              bg_color: color_dark_card
+            layout:
+              type: flex
+              flex_flow: column
+              flex_align_main: center
+              flex_align_cross: center
+              flex_align_track: center
+            widgets:
+              - label:
+                  text: "\U000F001B"
+                  styles: dashboard_button_icon_label
+              - label:
+                  text: "Bedroom"
+                  styles: dashboard_button_name_label
+        - button:
+            id: btn_sliding_gate_state
+            styles: dashboard_button
+            checked:
+              text_color: color_accent
+              bg_color: color_dark_card
+            layout:
+              type: flex
+              flex_flow: column
+              flex_align_main: center
+              flex_align_cross: center
+              flex_align_track: center
+            widgets:
+              - label:
+                  text: "\U000F0299"
+                  styles: dashboard_button_icon_label
+              - label:
+                  text: "Gate"
+                  styles: dashboard_button_name_label
+            on_click:
+              then:
+                homeassistant.action:
+                  action: "switch.toggle"
+                  data:
+                    entity_id: "switch.sonoff_1001df9740_1"
+        - button:
+            id: btn_garage_door_state
+            styles: dashboard_button
+            checked:
+              text_color: color_accent
+              bg_color: color_dark_card
+            layout:
+              type: flex
+              flex_flow: column
+              flex_align_main: center
+              flex_align_cross: center
+              flex_align_track: center
+            widgets:
+              - label:
+                  text: "\U000F12D3"
+                  styles: dashboard_button_icon_label
+              - label:
+                  text: "Door"
+                  styles: dashboard_button_name_label
+            on_click:
+              then:
+                homeassistant.action:
+                  action: "switch.toggle"
+                  data:
+                    entity_id: "switch.sonoff_1001df9776_1"
     - id: gas_boiler_thermostat_page
       on_load:
         then:
           script.execute:
             id: lvgl_sub_page_loaded
-            page_title: "GAS BOILER"
-      pad_all: 5
+            page_title: "\U000F0393 GAS BOILER"
+      styles: page_base
       layout:
         type: grid
         grid_rows: [fr(1), content, fr(1)]
@@ -156,7 +272,7 @@ lvgl:
             grid_cell_x_align: center
             grid_cell_y_align: end
             text: "-"
-            styles: secondary_info_label
+            styles: climate_secondary_info_label
         - label:
             id: "lbl_current_temp"
             grid_cell_row_pos: 2
@@ -164,18 +280,18 @@ lvgl:
             grid_cell_x_align: center
             grid_cell_y_align: start
             text: "--.- °C"
-            styles: secondary_info_label
+            styles: climate_secondary_info_label
         - button:
             id: "btn_increase_target_temp"
             grid_cell_row_pos: 1
             grid_cell_column_pos: 2
             grid_cell_x_align: end
             grid_cell_y_align: center
-            styles: target_temp_button
+            styles: climate_target_temp_button
             widgets:
               - label:
                   text: "+"
-                  styles: target_temp_button_label
+                  styles: climate_target_temp_button_label
             on_click:
               then:
                 homeassistant.action:
@@ -190,11 +306,11 @@ lvgl:
             grid_cell_column_pos: 0
             grid_cell_x_align: start
             grid_cell_y_align: center
-            styles: target_temp_button
+            styles: climate_target_temp_button
             widgets:
               - label:
                   text: "-"
-                  styles: target_temp_button_label
+                  styles: climate_target_temp_button_label
             on_click:
               then:
                 homeassistant.action:
@@ -230,9 +346,9 @@ lvgl:
             grid_cell_x_align: center
             grid_cell_y_align: end
             one_checked: true
-            styles: hvac_toggle_button_matrix
+            styles: climate_hvac_toggle_buttons
             items:
-              styles: hvac_toggle_button
+              styles: climate_hvac_toggle_button
             rows:
               - buttons:
                   - text: "\U000F0238"

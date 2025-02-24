@@ -29,8 +29,7 @@ font:
       - file: "fonts/materialdesignicons-webfont.ttf"
         glyphs: [
           "\U000F004D", # mdi:arrow-left
-          "\U000F0393", # mdi:thermostat
-          "\U000F06D9", # mdi:garage
+          "\U000F0438", # mdi:radiator
           "\U000F07D0", # mdi:home-assistant
           "\U000F05A9"  # mdi:wifi
         ]
@@ -53,19 +52,11 @@ font:
       - file: "fonts/materialdesignicons-webfont.ttf"
         glyphs: [
           "\U000F0299", # mdi:gate
-          "\U000F17F8", # mdi:gate-alert
           "\U000F12D3", # mdi:garage-variant
-          "\U000F12D5", # mdi:garage-alert-variant
           "\U000F001B", # mdi:air-conditioner
-          "\U000F0393"  # mdi:thermostat
+          "\U000F0438"  # mdi:radiator
         ]
   - file: "fonts/Roboto-Regular.ttf"
     size: 96
     id: "roboto_96"
     bpp: 4
-    extras:
-      - file: "fonts/materialdesignicons-webfont.ttf"
-        glyphs: [
-          "\U000F001B", # mdi:air-conditioner
-          "\U000F0393"  # mdi:thermostat
-        ]

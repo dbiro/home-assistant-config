@@ -131,7 +131,7 @@ lvgl:
               bg_color: color_dark_card
             widgets:
               - label:
-                  text: "\U000F0393"
+                  text: "\U000F0438"
                   styles: dashboard_button_icon_label
               - label:
                   text: "Gas boiler"
@@ -241,7 +241,7 @@ lvgl:
         then:
           script.execute:
             id: lvgl_sub_page_loaded
-            page_title: "\U000F0393 GAS BOILER"
+            page_title: "\U000F0438 GAS BOILER"
       styles: page_base
       layout:
         type: grid

@@ -1,0 +1,13 @@
+script:
+  - id: "lvgl_dashboard_page_loaded"
+    mode: single
+    then:
+      - lambda: |-
+              lv_theme_t * darkth = lv_theme_default_init(NULL, lv_palette_main(LV_PALETTE_LIGHT_BLUE), lv_palette_main(LV_PALETTE_AMBER), true, lv_theme_get_font_normal(NULL));
+              lv_disp_set_theme(NULL, darkth);
+              ESP_LOGD("dashboard_page", "Dark theme configured successfully.");
+      - lvgl.widget.hide: btn_show_dashboard_page
+      - lvgl.widget.show: lbl_time
+      - lvgl.label.update:
+          id: lbl_sub_page_title
+          text: "DASHBOARD"

@@ -39,23 +39,27 @@ lvgl:
     pad_all: 5
     widgets:
       - button:
-          id: btn_show_overview_page
+          id: btn_show_dashboard_page
           bg_opa: transp
           border_width: 0
           pad_all: 0
           align: top_left
           widgets:            
             - label:
-                id: lbl_sub_page_title
+                id: lbl_btn_show_dashboard_page
                 align: left_mid
                 styles: header_label
                 text: "\U000F004D"
           on_click:
             then:
               lvgl.page.show:
-                id: overview_page
-                animation: out_right
-                time: 100ms
+                id: dashboard_page
+                animation: none
+      - label:
+          id: lbl_sub_page_title
+          align: top_mid
+          styles: header_label
+          text: ""
       - obj:
           id: "connections_container"
           border_width: 0
@@ -83,10 +87,10 @@ lvgl:
                 text: "\U000F05A9"
                 styles: header_label
   pages:
-    - id: overview_page
+    - id: dashboard_page
       on_load:
         then:
-          script.execute: lvgl_overview_page_loaded
+          script.execute: lvgl_dashboard_page_loaded
       pad_all: 5
       widgets:
         - label:
@@ -95,10 +99,10 @@ lvgl:
             styles: header_label
             text: "--:--"
         - label:
-            id: lbl_welcome
+            id: lbl_dashboard
             styles: header_label
             align: top_mid
-            text: "Welcome"
+            text: "DASHBOARD"
         - button:
             id: btn_gas_boiler
             width: 300
@@ -113,14 +117,13 @@ lvgl:
               then:
                 - lvgl.page.show:
                     id: gas_boiler_thermostat_page
-                    animation: out_left
-                    time: 100ms
+                    animation: none
     - id: gas_boiler_thermostat_page
       on_load:
         then:
           script.execute:
             id: lvgl_sub_page_loaded
-            page_title: "Gas Boiler"
+            page_title: "GAS BOILER"
       pad_all: 5
       layout:
         type: grid

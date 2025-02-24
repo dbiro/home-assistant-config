@@ -8,7 +8,7 @@ Seed Studio's [SenseCAP Indicator D1](https://www.seeedstudio.com/SenseCAP-Indic
 
 ### Features:
 - Run [LCD anti-burn-in exercise](https://esphome.io/cookbook/lvgl#prevent-burn-in-of-lcd) when display is idle
-- Multi-page structure: one overview page with control specific sub pages
+- Multi-page structure: one dashboard page with control specific sub pages
 - Display technical information on page header:
     - Current time in 24h format synchronized from Home Assistant
     - Title of active page

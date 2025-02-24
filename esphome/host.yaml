@@ -26,6 +26,8 @@ ota: !remove
 
 logger:
   level: DEBUG
+  logs:
+    fake_light: NONE
 
 # -----------------------------
 # Display Wi-Fi icon without WiFi

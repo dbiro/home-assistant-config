@@ -1,5 +1,5 @@
 packages:
   lvgl_pause: !include lvgl_pause.yaml
   lvgl_resume: !include lvgl_resume.yaml
-  lvgl_home_page_loaded: !include lvgl_overview_page_loaded.yaml
+  lvgl_dashboard_page_loaded: !include lvgl_dashboard_page_loaded.yaml
   lvgl_sub_page_loaded: !include lvgl_sub_page_loaded.yaml

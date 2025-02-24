@@ -1,0 +1,12 @@
+script:
+  - id: lvgl_show_dashboard_page
+    mode: single
+    then:
+      if:
+        condition:
+            not:
+              lvgl.page.is_showing: dashboard_page
+        then:
+            lvgl.page.show:
+              id: dashboard_page
+              animation: none

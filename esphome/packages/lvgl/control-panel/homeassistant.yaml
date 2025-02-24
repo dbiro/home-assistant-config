@@ -185,10 +185,11 @@ binary_sensor:
           condition:
             lambda: return x;
           then:
-            - script.execute: lvgl_resume
-            - lvgl.page.show:
-                id: dashboard_page
-                animation: none
+            - if:
+                condition: lvgl.is_paused
+                then:
+                  - script.execute: lvgl_resume
+                  - script.execute: lvgl_show_dashboard_page
           else:
              if:
               condition: 

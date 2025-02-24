@@ -2,4 +2,5 @@ packages:
   lvgl_pause: !include lvgl_pause.yaml
   lvgl_resume: !include lvgl_resume.yaml
   lvgl_dashboard_page_loaded: !include lvgl_dashboard_page_loaded.yaml
+  lvgl_show_dashboard_page: !include lvgl_show_dashboard_page.yaml
   lvgl_sub_page_loaded: !include lvgl_sub_page_loaded.yaml

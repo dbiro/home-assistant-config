@@ -5,13 +5,16 @@ lvgl:
     - my_touchscreen
   default_font: "roboto_14"
   on_idle:
-    timeout: ${lvgl_idle_timeout}
-    then:
-      - if:
-          condition:
-            binary_sensor.is_off: keep_display_on
-          then:
-            - script.execute: lvgl_pause
+    - timeout: 10s
+      then:
+        script.execute: lvgl_show_dashboard_page
+    - timeout: ${lvgl_idle_timeout}
+      then:
+        - if:
+            condition:
+              binary_sensor.is_off: keep_display_on
+            then:
+              - script.execute: lvgl_pause
   style_definitions:
     - id: page_base
       pad_top: 45 # 35 height + 5 pad-top + 5 pad-bottom 
@@ -127,8 +130,7 @@ lvgl:
               flex_align_cross: center
               flex_align_track: center
             checked:
-              text_color: color_heating
-              bg_color: color_dark_card
+              bg_color: color_heating
             widgets:
               - label:
                   text: "\U000F0438"
@@ -146,9 +148,6 @@ lvgl:
             styles: dashboard_button
             state:
               disabled: true
-            checked:
-              text_color: color_accent
-              bg_color: color_dark_card
             layout:
               type: flex
               flex_flow: column
@@ -170,9 +169,6 @@ lvgl:
             styles: dashboard_button
             state:
               disabled: true
-            checked:
-              text_color: color_accent
-              bg_color: color_dark_card
             layout:
               type: flex
               flex_flow: column
@@ -189,9 +185,6 @@ lvgl:
         - button:
             id: btn_sliding_gate_state
             styles: dashboard_button
-            checked:
-              text_color: color_accent
-              bg_color: color_dark_card
             layout:
               type: flex
               flex_flow: column
@@ -214,9 +207,6 @@ lvgl:
         - button:
             id: btn_garage_door_state
             styles: dashboard_button
-            checked:
-              text_color: color_accent
-              bg_color: color_dark_card
             layout:
               type: flex
               flex_flow: column

@@ -144,6 +144,8 @@ lvgl:
         - button:
             id: btn_livingroom_ac_state
             styles: dashboard_button
+            state:
+              disabled: true
             checked:
               text_color: color_accent
               bg_color: color_dark_card

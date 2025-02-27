@@ -183,7 +183,8 @@ binary_sensor:
       then:
         if:
           condition:
-            lambda: return x;
+            lambda: |-
+              return x;
           then:
             script.execute: lvgl_resume
           else:

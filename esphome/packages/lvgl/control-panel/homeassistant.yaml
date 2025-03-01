@@ -186,11 +186,15 @@ binary_sensor:
             lambda: |-
               return x;
           then:
-            script.execute: lvgl_resume
+            - logger.log: "Display should keep on: resuming LVGL"
+            - script.execute: lvgl_resume
           else:
-            if:
-              condition: 
-                lvgl.is_idle:
-                  timeout: ${lvgl_idle_timeout}
-              then:
-                script.execute: lvgl_pause
+            - if:
+                condition: 
+                  lvgl.is_idle:
+                    timeout: ${lvgl_idle_timeout}
+                then:
+                  - logger.log: "Display should turn off: pausing LVGL"
+                  - script.execute: lvgl_pause
+                else:
+                  - logger.log: Display should still keep on. LVG idle timeout ${lvgl_idle_timeout} not reached.

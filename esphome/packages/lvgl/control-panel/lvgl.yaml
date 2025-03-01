@@ -7,9 +7,11 @@ lvgl:
   on_idle:
     - timeout: 20s
       then:
-        script.execute: lvgl_show_dashboard_page
+        - logger.log: "LVGL has been idle for 20secs: navigating to dashboard page"
+        - script.execute: lvgl_show_dashboard_page
     - timeout: ${lvgl_idle_timeout}
       then:
+        - logger.log: "LVGL has been idle for ${lvgl_idle_timeout}: turning display off."
         - if:
             condition:
               binary_sensor.is_off: keep_display_on

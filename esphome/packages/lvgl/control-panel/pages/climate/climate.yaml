@@ -1,0 +1,4 @@
+packages:
+  #climate-styles: !include climate-page-styles.yaml
+  climate-page: !include climate-page.yaml
+  climate-sensors: !include climate-sensors.yaml

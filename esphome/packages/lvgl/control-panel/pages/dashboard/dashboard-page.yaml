@@ -1,0 +1,149 @@
+lvgl:
+  pages:
+    - id: dashboard_page
+      on_load:
+        then:
+          script.execute: lvgl_dashboard_page_loaded
+      styles: page_base
+      layout:
+        type: flex
+        flex_flow: row_wrap
+        flex_align_main: space_evenly
+        flex_align_cross: center
+        flex_align_track: center
+      widgets:
+        - button:
+            id: btn_gas_boiler_thermostat_state
+            styles: dashboard_button
+            layout:
+              type: flex
+              flex_flow: column
+              flex_align_main: center
+              flex_align_cross: center
+              flex_align_track: center
+            checked:
+              bg_color: color_heating
+            widgets:
+              - label:
+                  text: "\U000F0438"
+                  styles: dashboard_button_icon_label
+              - label:
+                  text: "Gas boiler"
+                  styles: dashboard_button_name_label
+            on_click:
+              then:
+                - lvgl.page.show:
+                    id: climate_gas_boiler_thermostat_page
+                    animation: none
+        - button:
+            id: btn_livingroom_panasonic_ac_livingroom_panasonic_ac_state
+            styles: dashboard_button
+            state:
+              disabled: false
+            layout:
+              type: flex
+              flex_flow: column
+              flex_align_main: center
+              flex_align_cross: center
+              flex_align_track: center
+            widgets:
+              - label:
+                  text: "\U000F001B"
+                  styles: dashboard_button_icon_label
+              - label:
+                  text: "Livingroom"
+                  styles: dashboard_button_name_label
+            on_click:
+              then:
+                lvgl.page.show:
+                  id: climate_livingroom_panasonic_ac_livingroom_panasonic_ac_page
+                  animation: none
+        - button:
+            id: btn_bedroom_panasonic_ac_bedroom_panasonic_ac_state
+            styles: dashboard_button
+            state:
+              disabled: false
+            layout:
+              type: flex
+              flex_flow: column
+              flex_align_main: center
+              flex_align_cross: center
+              flex_align_track: center
+            widgets:
+              - label:
+                  text: "\U000F001B"
+                  styles: dashboard_button_icon_label
+              - label:
+                  text: "Bedroom"
+                  styles: dashboard_button_name_label
+            on_click:
+              then:
+                lvgl.page.show:
+                  id: climate_bedroom_panasonic_ac_bedroom_panasonic_ac_page
+                  animation: none
+        - button:
+            id: btn_door_gate_state
+            styles: dashboard_button
+            layout:
+              type: flex
+              flex_flow: column
+              flex_align_main: center
+              flex_align_cross: center
+              flex_align_track: center
+            widgets:
+              - label:
+                  text: "\U000F0041"
+                  styles: dashboard_button_icon_label
+              - label:
+                  text: "Door/Gate"
+                  styles: dashboard_button_name_label
+            on_click:
+              then:
+                homeassistant.action:
+                  action: "switch.toggle"
+                  data:
+                    entity_id: "switch.garage_doors"
+        - button:
+            id: btn_sliding_gate_state
+            styles: dashboard_button
+            layout:
+              type: flex
+              flex_flow: column
+              flex_align_main: center
+              flex_align_cross: center
+              flex_align_track: center
+            widgets:
+              - label:
+                  text: "\U000F0299"
+                  styles: dashboard_button_icon_label
+              - label:
+                  text: "Gate"
+                  styles: dashboard_button_name_label
+            on_click:
+              then:
+                homeassistant.action:
+                  action: "switch.toggle"
+                  data:
+                    entity_id: "switch.sonoff_1001df9740_1"
+        - button:
+            id: btn_garage_door_state
+            styles: dashboard_button
+            layout:
+              type: flex
+              flex_flow: column
+              flex_align_main: center
+              flex_align_cross: center
+              flex_align_track: center
+            widgets:
+              - label:
+                  text: "\U000F12D3"
+                  styles: dashboard_button_icon_label
+              - label:
+                  text: "Door"
+                  styles: dashboard_button_name_label
+            on_click:
+              then:
+                homeassistant.action:
+                  action: "switch.toggle"
+                  data:
+                    entity_id: "switch.sonoff_1001df9776_1"

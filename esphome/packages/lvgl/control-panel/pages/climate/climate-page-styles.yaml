@@ -1,0 +1,20 @@
+lvgl:
+  style_definitions:
+    - id: climate_target_temp_button
+      height: 50
+      width: 50
+      bg_color: color_dark_card
+    - id: climate_target_temp_button_label
+      text_font: "roboto_26"
+      align: center
+    - id: climate_hvac_toggle_buttons
+      height: 50
+      width: 340
+      pad_column: 0
+      pad_all: 0
+      border_width: 0
+    - id: climate_hvac_toggle_button
+      text_font: "roboto_26"
+      bg_opa: transp
+    - id: climate_secondary_info_label
+      text_font: roboto_32

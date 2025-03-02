@@ -30,6 +30,7 @@ font:
         glyphs: [
           "\U000F004D", # mdi:arrow-left
           "\U000F0438", # mdi:radiator
+          "\U000F001B", # mdi:air-conditioner
           "\U000F07D0", # mdi:home-assistant
           "\U000F05A9"  # mdi:wifi
         ]

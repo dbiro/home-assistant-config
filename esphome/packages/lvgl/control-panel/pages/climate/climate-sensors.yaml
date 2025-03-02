@@ -1,0 +1,126 @@
+sensor:
+  - platform: homeassistant
+    id: ha_${climate_entity}_current_temp_sensor
+    entity_id: climate.${climate_entity}
+    attribute: current_temperature
+    on_value: 
+      then:
+        - lvgl.label.update:
+            id: lbl_${climate_entity}_current_temp
+            text:
+              format: "\U000F050F %.1f °C"
+              args: [x]
+            
+  - platform: homeassistant
+    id: ha_${climate_entity}_target_temp_sensor
+    entity_id: climate.${climate_entity}
+    attribute: temperature
+    on_value: 
+      then:
+        - lvgl.label.update:
+            id: lbl_${climate_entity}_target_temp
+            text:
+              format: "%.1f"
+              args: [x]
+
+  - platform: homeassistant
+    id: ha_${climate_entity}_target_temp_step_sensor
+    entity_id: climate.${climate_entity}
+    attribute: target_temp_step
+
+text_sensor:
+  - platform: homeassistant
+    id: ha_${climate_entity}_hvac_action_sensor
+    entity_id: climate.${climate_entity}
+    attribute: hvac_action
+    filters:
+      - map:
+          - heating -> Heating
+          - idle -> Idle
+          - off -> Off
+    on_value: 
+      then:
+        - if:
+            condition:
+              lambda: |-
+                return x == "Heating";
+            then:
+              - lvgl.widget.update:
+                  id: btn_${climate_entity}_state
+                  state:
+                    checked: true
+              - lvgl.label.update:
+                  id: lbl_${climate_entity}_hvac_action
+                  text_color: color_heating
+                  text: "\U000F0438"
+              - lvgl.label.update:
+                  id: lbl_${climate_entity}_current_temp
+                  text_color: color_heating
+              - lvgl.arc.update:
+                  id: arc_${climate_entity}_hvac_action
+                  indicator:
+                    arc_opa: cover
+            else:
+              - lvgl.label.update:
+                  id: lbl_${climate_entity}_current_temp
+                  text_color: color_dark_text
+              - lvgl.widget.update:
+                  id: btn_${climate_entity}_state
+                  state:
+                    checked: false
+              - if:
+                  condition: 
+                    lambda: |-
+                      return x == "Idle";
+                  then:
+                    - lvgl.label.update:
+                        id: lbl_${climate_entity}_hvac_action
+                        text_color: color_dark_text
+                        text: "\U000F0150"
+                    - lvgl.arc.update:
+                        id: arc_${climate_entity}_hvac_action
+                        indicator:
+                          arc_opa: 20%
+                  else:
+                    - lvgl.label.update:
+                        id: lbl_${climate_entity}_hvac_action
+                        text_color: color_dark_text
+                        text: !lambda return x;
+                    - lvgl.arc.update:
+                        id: arc_${climate_entity}_hvac_action
+                        indicator:
+                          arc_opa: transp
+
+  - platform: homeassistant
+    id: ha_${climate_entity}_state_sensor
+    entity_id: climate.${climate_entity}
+    filters:
+      - to_lower:
+    on_value: 
+      then:
+        if:
+          condition:
+            lambda: |-
+              return x == "heat";
+          then:
+            - lvgl.buttonmatrix.update:
+                id: btn_matrix_${climate_entity}_hvac_modes
+                items:
+                  checked:
+                    bg_color: color_heating
+                    bg_opa: 80%
+            - lvgl.matrix.button.update:
+                id: btn_${climate_entity}_heat_mode
+                control:
+                  checked: true
+          else:
+            - lvgl.buttonmatrix.update:
+                id: btn_matrix_${climate_entity}_hvac_modes
+                items:
+                  checked:
+                    bg_color: color_dark_text
+                    bg_opa: 60%
+            - lvgl.matrix.button.update:
+                id: btn_${climate_entity}_off_mode
+                control:
+                  checked: true

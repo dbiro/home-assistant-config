@@ -171,6 +171,17 @@ binary_sensor:
           state:
             checked: !lambda return x;
 
+  - platform: homeassistant
+    id: ha_garage_door_openings_sensor
+    entity_id: binary_sensor.garage_door_openings
+    publish_initial_state: true
+    on_state:
+      then:
+        lvgl.widget.update:
+          id: btn_door_gate_state
+          state:
+            checked: !lambda return x;
+
   - platform: template
     id: keep_display_on
     internal: true

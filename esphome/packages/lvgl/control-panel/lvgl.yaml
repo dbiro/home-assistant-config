@@ -187,6 +187,28 @@ lvgl:
                   text: "Bedroom"
                   styles: dashboard_button_name_label
         - button:
+            id: btn_door_gate_state
+            styles: dashboard_button
+            layout:
+              type: flex
+              flex_flow: column
+              flex_align_main: center
+              flex_align_cross: center
+              flex_align_track: center
+            widgets:
+              - label:
+                  text: "\U000F0041"
+                  styles: dashboard_button_icon_label
+              - label:
+                  text: "Door/Gate"
+                  styles: dashboard_button_name_label
+            on_click:
+              then:
+                homeassistant.action:
+                  action: "switch.toggle"
+                  data:
+                    entity_id: "switch.garage_doors"
+        - button:
             id: btn_sliding_gate_state
             styles: dashboard_button
             layout:

@@ -51,6 +51,7 @@ font:
     extras:
       - file: "fonts/materialdesignicons-webfont.ttf"
         glyphs: [
+          "\U000F0041", # mdi:arrow-all
           "\U000F0299", # mdi:gate
           "\U000F12D3", # mdi:garage-variant
           "\U000F001B", # mdi:air-conditioner

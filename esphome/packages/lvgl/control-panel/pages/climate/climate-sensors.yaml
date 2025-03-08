@@ -36,6 +36,7 @@ text_sensor:
     filters:
       - map:
           - heating -> Heating
+          - cooling -> Cooling
           - idle -> Idle
           - off -> Off
     on_value: 
@@ -45,51 +46,53 @@ text_sensor:
               lambda: |-
                 return x == "Heating";
             then:
-              - lvgl.widget.update:
-                  id: btn_${climate_entity}_state
-                  state:
-                    checked: true
-              - lvgl.label.update:
-                  id: lbl_${climate_entity}_hvac_action
-                  text_color: color_heating
-                  text: "\U000F0438"
-              - lvgl.label.update:
-                  id: lbl_${climate_entity}_current_temp
-                  text_color: color_heating
-              - lvgl.arc.update:
-                  id: arc_${climate_entity}_hvac_action
-                  indicator:
-                    arc_opa: cover
+              - script.execute:
+                  id: on_${climate_entity}_hvac_action_heating_activated
             else:
-              - lvgl.label.update:
-                  id: lbl_${climate_entity}_current_temp
-                  text_color: color_dark_text
-              - lvgl.widget.update:
-                  id: btn_${climate_entity}_state
-                  state:
-                    checked: false
               - if:
-                  condition: 
+                  condition:
                     lambda: |-
-                      return x == "Idle";
+                      return x == "Cooling";
                   then:
-                    - lvgl.label.update:
-                        id: lbl_${climate_entity}_hvac_action
-                        text_color: color_dark_text
-                        text: "\U000F0150"
-                    - lvgl.arc.update:
-                        id: arc_${climate_entity}_hvac_action
-                        indicator:
-                          arc_opa: 20%
+                    - script.execute:
+                        id: on_${climate_entity}_hvac_action_cooling_activated
                   else:
-                    - lvgl.label.update:
-                        id: lbl_${climate_entity}_hvac_action
-                        text_color: color_dark_text
-                        text: !lambda return x;
-                    - lvgl.arc.update:
-                        id: arc_${climate_entity}_hvac_action
-                        indicator:
-                          arc_opa: transp
+                    - if:
+                        condition: 
+                          lambda: |-
+                            return x == "Idle";
+                        then:
+                          if:
+                            condition:
+                              text_sensor.state:
+                                id: ha_${climate_entity}_state_sensor
+                                state: heat
+                            then:
+                              script.execute:
+                                id: on_${climate_entity}_hvac_action_idleheat_activated
+                            else:
+                              if:
+                                condition:
+                                  text_sensor.state:
+                                    id: ha_${climate_entity}_state_sensor
+                                    state: cool
+                                then:
+                                  script.execute:
+                                    id: on_${climate_entity}_hvac_action_idlecool_activated
+                                else:
+                                  script.execute:
+                                    id: on_${climate_entity}_hvac_action_idleunsupported_activated
+                        else:
+                          - if:
+                              condition:
+                                lambda: |-
+                                  return x == "Off";
+                              then:
+                                - script.execute:
+                                    id: on_${climate_entity}_hvac_action_off_activated
+                              else:
+                                - script.execute:
+                                    id: on_${climate_entity}_hvac_action_unsupported_activated
 
   - platform: homeassistant
     id: ha_${climate_entity}_state_sensor
@@ -103,24 +106,26 @@ text_sensor:
             lambda: |-
               return x == "heat";
           then:
-            - lvgl.buttonmatrix.update:
-                id: btn_matrix_${climate_entity}_hvac_modes
-                items:
-                  checked:
-                    bg_color: color_heating
-                    bg_opa: 80%
-            - lvgl.matrix.button.update:
-                id: btn_${climate_entity}_heat_mode
-                control:
-                  checked: true
+            - script.execute:
+                id: on_${climate_entity}_hvac_mode_heat_activated
           else:
-            - lvgl.buttonmatrix.update:
-                id: btn_matrix_${climate_entity}_hvac_modes
-                items:
-                  checked:
-                    bg_color: color_dark_text
-                    bg_opa: 60%
-            - lvgl.matrix.button.update:
-                id: btn_${climate_entity}_off_mode
-                control:
-                  checked: true
+            if:
+              condition:
+                lambda: |-
+                  return x == "cool";
+              then:
+                - script.execute:
+                    id: on_${climate_entity}_hvac_mode_cool_activated
+              else:
+                if:
+                  condition:
+                    lambda: |-
+                      return x == "off";
+                  then:
+                    - script.execute:
+                        id: on_${climate_entity}_hvac_mode_off_activated
+                  else:
+                    - logger.log:
+                        format: "%s HVAC mode not supported for ?? climate entity"
+                        args: ['x.c_str()']
+                        level: WARN

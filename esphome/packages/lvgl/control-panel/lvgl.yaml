@@ -1,30 +1,32 @@
 packages:
-  #-----------------------------
-  # DASHBOARD PAGE
-  #-----------------------------
+  #-------------------------------
+  # ====== DASHBOARD PAGE ======
+  #-------------------------------
   lvgl_dashboard_page_styles: !include pages/dashboard/dashboard-page-styles.yaml
   lvgl_dashboard_page: !include pages/dashboard/dashboard-page.yaml
   #-----------------------------
-  lvgl_climate_page_styles: !include pages/climate/climate-page-styles.yaml
+  # ====== CLIMATE PAGES ======
   #-----------------------------
-  # CLIMATE: GAS BOILER PAGE
-  #-----------------------------
+  lvgl_climate_page_styles: !include pages/climate/styles/styles.yaml
+  #
+  # 1. GAS BOILER PAGE
+  #
   lvgl_climate_gas_boiler: !include
     file: pages/climate/climate.yaml
     vars:
       climate_page_title: "\U000F0438 GAS BOILER"
       climate_entity: gas_boiler_thermostat
-  #-----------------------------
-  # CLIMATE: LIVINGROOM AC PAGE
-  #-----------------------------
+  #
+  # 2. LIVINGROOM AC PAGE
+  #
   lvgl_climate_livingroom_ac: !include
     file: pages/climate/climate.yaml
     vars:
       climate_page_title: "\U000F001B LIVINGROOM AC"
       climate_entity: livingroom_panasonic_ac_livingroom_panasonic_ac
-  #-----------------------------
-  # CLIMATE: BEDROOM AC PAGE
-  #-----------------------------
+  #
+  # 3. BEDROOM AC PAGE
+  #
   lvgl_climate_bedroom_ac: !include
     file: pages/climate/climate.yaml
     vars:

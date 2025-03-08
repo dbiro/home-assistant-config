@@ -28,8 +28,8 @@ lvgl:
             height: 335
             arc_width: 3
             indicator:
-              arc_color: color_heating
-              arc_opa: transp
+              arc_color: color_dark_card
+              arc_opa: cover
               arc_width: 3
         - label:
             id: "lbl_${climate_entity}_hvac_action"
@@ -119,6 +119,22 @@ lvgl:
               styles: climate_hvac_toggle_button
             rows:
               - buttons:
+                  - text: "\U000F0717"
+                    id: btn_${climate_entity}_cool_mode
+                    control:
+                      checkable: true
+                    on_value:
+                      then:
+                        - if:
+                            condition:
+                              lambda: |-
+                                return x;
+                            then:
+                              - homeassistant.action:
+                                  action: "climate.set_hvac_mode"
+                                  data:
+                                    entity_id: "climate.${climate_entity}"
+                                    hvac_mode: "cool"
                   - text: "\U000F0238"
                     id: btn_${climate_entity}_heat_mode
                     control:

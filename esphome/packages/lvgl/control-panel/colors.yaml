@@ -13,6 +13,8 @@ esphome: {}  # supress VS Code syntax warning
 color:
   - id: color_heating # mc:amber-darken-4
     hex: FF6F00
+  - id: color_cooling # mc: blue_main
+    hex: 2196F3
   - id: color_light_blue_main # mc: light_blue_main
     hex: 03A9F4
   - id: color_dark_card # lvgl:DARK_COLOR_CARD

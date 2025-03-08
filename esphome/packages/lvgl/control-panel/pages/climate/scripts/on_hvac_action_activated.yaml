@@ -1,0 +1,22 @@
+defaults:
+  hvac_idle_mode: ""
+script:
+  - id: on_${climate_entity}_hvac_action_${hvac_action}${hvac_idle_mode}_activated
+    mode: queued
+    then:
+      - lvgl.widget.update:
+          id: btn_${climate_entity}_state
+          bg_opa: ${hvac_action_bg_opa}
+          bg_color: ${hvac_action_bg_color}
+      - lvgl.label.update:
+          id: lbl_${climate_entity}_hvac_action
+          text_color: ${hvac_action_text_color}
+          text: ${hvac_action_text}
+      - lvgl.label.update:
+          id: lbl_${climate_entity}_current_temp
+          text_color: ${hvac_action_text_color}
+      - lvgl.arc.update:
+          id: arc_${climate_entity}_hvac_action
+          indicator:
+            arc_opa: ${hvac_action_bg_opa}
+            arc_color: ${hvac_action_bg_color}

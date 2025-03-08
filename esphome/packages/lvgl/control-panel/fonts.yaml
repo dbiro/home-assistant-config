@@ -19,6 +19,7 @@ font:
       - file: "fonts/materialdesignicons-webfont.ttf"
         glyphs: [
           "\U000F0238",  # mdi:fire
+          "\U000F0717",  # mdi:snowflake
           "\U000F0906"   # mdi:power-standby
         ]
   - file: "fonts/Roboto-Regular.ttf"
@@ -43,6 +44,7 @@ font:
         glyphs: [
           "\U000F050F",  # mdi:thermometer
           "\U000F0438",  # mdi:radiator
+          "\U000F0717",  # mdi:snowflake
           "\U000F0150"   # mdi:clock-outline
         ]
   - file: "fonts/Roboto-Regular.ttf"

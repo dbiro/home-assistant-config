@@ -1,8 +1,64 @@
 script:
-  - id: on_${climate_entity}_hvac_mode_${hvac_mode}_activated
+  - id: on_${climate_entity}_hvac_mode_activated
     mode: queued
+    parameters:
+      hvac_mode: string
     then:
-      - lvgl.widget.update:
-          id: btn_${climate_entity}_${hvac_mode}_mode
-          state:
-            checked: true
+      if:
+        condition:
+          lambda: |-
+            return hvac_mode == "cool";
+        then:
+          - lvgl.widget.update:
+              id: btn_${climate_entity}_cool_mode
+              bg_opa: 60%
+              bg_color: color_cooling
+          - lvgl.widget.update:
+              id: btn_${climate_entity}_heat_mode
+              bg_opa: cover
+              bg_color: color_dark_card
+          - lvgl.widget.update:
+              id: btn_${climate_entity}_off_mode
+              bg_opa: cover
+              bg_color: color_dark_card
+        else:
+          if:
+            condition:
+              lambda: |-
+                return hvac_mode == "heat";
+            then:
+              - lvgl.widget.update:
+                  id: btn_${climate_entity}_cool_mode
+                  bg_opa: cover
+                  bg_color: color_dark_card
+              - lvgl.widget.update:
+                  id: btn_${climate_entity}_heat_mode
+                  bg_opa: 60%
+                  bg_color: color_heating
+              - lvgl.widget.update:
+                  id: btn_${climate_entity}_off_mode
+                  bg_opa: cover
+                  bg_color: color_dark_card
+            else:
+              if:
+                condition:
+                  lambda: |-
+                    return hvac_mode == "off";
+                then:
+                  - lvgl.widget.update:
+                      id: btn_${climate_entity}_cool_mode
+                      bg_opa: cover
+                      bg_color: color_dark_card
+                  - lvgl.widget.update:
+                      id: btn_${climate_entity}_heat_mode
+                      bg_opa: cover
+                      bg_color: color_dark_card
+                  - lvgl.widget.update:
+                      id: btn_${climate_entity}_off_mode
+                      bg_opa: 60%
+                      bg_color: color_dark_text
+                else:
+                  - logger.log:
+                      format: "%s HVAC mode not supported for ${climate_entity} climate entity"
+                      args: [hvac_mode.c_str()]
+                      level: WARN

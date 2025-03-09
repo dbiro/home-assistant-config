@@ -125,94 +125,42 @@ lvgl:
                   id: btn_${climate_entity}_cool_mode
                   styles: climate_hvac_mode_button
                   hidden: !lambda return !str_equals_case_insensitive("${supports_cool_mode}", "True");
-                  checkable: true
-                  checked:
-                    bg_color: color_cooling
-                    bg_opa: 60%
                   widgets:
                     - label:
                         align: center
                         text: "\U000F0717"
-                  on_value:
+                  on_click:
                     then:
-                      - if:
-                          condition:
-                            lambda: |-
-                              return x;
-                          then:
-                            - homeassistant.action:
-                                action: "climate.set_hvac_mode"
-                                data:
-                                  entity_id: "climate.${climate_entity}"
-                                  hvac_mode: "cool"
-                            - lvgl.widget.update:
-                                id: btn_${climate_entity}_heat_mode
-                                state:
-                                  checked: false
-                            - lvgl.widget.update:
-                                id: btn_${climate_entity}_off_mode
-                                state:
-                                  checked: false
+                      homeassistant.action:
+                        action: "climate.set_hvac_mode"
+                        data:
+                          entity_id: "climate.${climate_entity}"
+                          hvac_mode: "cool"
               - button:
                   id: btn_${climate_entity}_heat_mode
                   styles: climate_hvac_mode_button
                   hidden: !lambda return !str_equals_case_insensitive("${supports_heat_mode}", "True");
-                  checkable: true
-                  checked:
-                    bg_color: color_heating
-                    bg_opa: 60%
                   widgets:
                     - label:
                         align: center
                         text: "\U000F0238"
-                  on_value:
+                  on_click:
                     then:
-                      - if:
-                          condition:
-                            lambda: |-
-                              return x;
-                          then:
-                            - homeassistant.action:
-                                action: "climate.set_hvac_mode"
-                                data:
-                                  entity_id: "climate.${climate_entity}"
-                                  hvac_mode: "heat"
-                            - lvgl.widget.update:
-                                id: btn_${climate_entity}_cool_mode
-                                state:
-                                  checked: false
-                            - lvgl.widget.update:
-                                id: btn_${climate_entity}_off_mode
-                                state:
-                                  checked: false
+                      homeassistant.action:
+                        action: "climate.set_hvac_mode"
+                        data:
+                          entity_id: "climate.${climate_entity}"
+                          hvac_mode: "heat"
               - button:
                   id: btn_${climate_entity}_off_mode
                   styles: climate_hvac_mode_button
-                  checked:
-                    bg_color: color_dark_text
-                    bg_opa: 60%
-                  checkable: true
                   widgets:
                     - label:
                         align: center
                         text: "\U000F0906"
-                  on_value:
-                    then:
-                      - if:
-                          condition:
-                            lambda: |-
-                              return x;
-                          then:
-                            - homeassistant.action:
-                                action: "climate.set_hvac_mode"
-                                data:
-                                  entity_id: "climate.${climate_entity}"
-                                  hvac_mode: "off"
-                            - lvgl.widget.update:
-                                id: btn_${climate_entity}_cool_mode
-                                state:
-                                  checked: false
-                            - lvgl.widget.update:
-                                id: btn_${climate_entity}_heat_mode
-                                state:
-                                  checked: false
+                  on_click:
+                    homeassistant.action:
+                      action: "climate.set_hvac_mode"
+                      data:
+                        entity_id: "climate.${climate_entity}"
+                        hvac_mode: "off"

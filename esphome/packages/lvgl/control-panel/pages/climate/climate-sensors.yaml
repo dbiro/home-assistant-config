@@ -101,31 +101,4 @@ text_sensor:
       - to_lower:
     on_value: 
       then:
-        if:
-          condition:
-            lambda: |-
-              return x == "heat";
-          then:
-            - script.execute:
-                id: on_${climate_entity}_hvac_mode_heat_activated
-          else:
-            if:
-              condition:
-                lambda: |-
-                  return x == "cool";
-              then:
-                - script.execute:
-                    id: on_${climate_entity}_hvac_mode_cool_activated
-              else:
-                if:
-                  condition:
-                    lambda: |-
-                      return x == "off";
-                  then:
-                    - script.execute:
-                        id: on_${climate_entity}_hvac_mode_off_activated
-                  else:
-                    - logger.log:
-                        format: "%s HVAC mode not supported for ?? climate entity"
-                        args: ['x.c_str()']
-                        level: WARN
+        lambda: id(on_${climate_entity}_hvac_mode_activated)->execute(x);

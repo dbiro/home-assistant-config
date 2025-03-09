@@ -94,21 +94,7 @@ packages:
   #----------------------------------
   # HVAC MODE CHANGES SCRIPTS
   #----------------------------------
-  climate_hvac_mode_heat_activated: !include
+  climate_hvac_mode_activated: !include
       file: scripts/on_hvac_mode_activated.yaml
       vars:
         climate_entity: ${climate_entity}
-        hvac_mode: heat
-        hvac_mode_color: color_heating
-  climate_hvac_mode_cool_activated: !include
-      file: scripts/on_hvac_mode_activated.yaml
-      vars:
-        climate_entity: ${climate_entity}
-        hvac_mode: cool
-        hvac_mode_color: color_cooling
-  climate_hvac_mode_off_activated: !include
-      file: scripts/on_hvac_mode_activated.yaml
-      vars:
-        climate_entity: ${climate_entity}
-        hvac_mode: "off"
-        hvac_mode_color: color_dark_text

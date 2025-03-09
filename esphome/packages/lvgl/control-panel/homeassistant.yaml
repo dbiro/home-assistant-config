@@ -60,7 +60,9 @@ binary_sensor:
     internal: true
     lambda: |-
       return
-        id(ha_gas_boiler_thermostat_hvac_action_sensor).state == "Heating" or
+        str_endswith(id(ha_gas_boiler_thermostat_hvac_action_sensor).state.c_str(), "ing") or
+        str_endswith(id(ha_livingroom_panasonic_ac_livingroom_panasonic_ac_hvac_action_sensor).state.c_str(), "ing") or
+        str_endswith(id(ha_bedroom_panasonic_ac_bedroom_panasonic_ac_hvac_action_sensor).state.c_str(), "ing") or
         id(ha_garage_door_opening_sensor).state or
         id(ha_sliding_gate_opening_sensor).state;
     on_state:

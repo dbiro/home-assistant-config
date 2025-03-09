@@ -2,13 +2,7 @@ script:
   - id: on_${climate_entity}_hvac_mode_${hvac_mode}_activated
     mode: queued
     then:
-      - lvgl.buttonmatrix.update:
-          id: btn_matrix_${climate_entity}_hvac_modes
-          items:
-            checked:
-              bg_color: ${hvac_mode_color}
-              bg_opa: 60%
-      - lvgl.matrix.button.update:
+      - lvgl.widget.update:
           id: btn_${climate_entity}_${hvac_mode}_mode
-          control:
+          state:
             checked: true

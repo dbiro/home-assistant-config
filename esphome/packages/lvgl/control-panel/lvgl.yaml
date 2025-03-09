@@ -16,6 +16,8 @@ packages:
     vars:
       climate_page_title: "\U000F0438 GAS BOILER"
       climate_entity: gas_boiler_thermostat
+      supports_cool_mode: false
+      supports_heat_mode: true
   #
   # 2. LIVINGROOM AC PAGE
   #
@@ -24,6 +26,8 @@ packages:
     vars:
       climate_page_title: "\U000F001B LIVINGROOM AC"
       climate_entity: livingroom_panasonic_ac_livingroom_panasonic_ac
+      supports_cool_mode: true
+      supports_heat_mode: true
   #
   # 3. BEDROOM AC PAGE
   #
@@ -32,6 +36,8 @@ packages:
     vars:
       climate_page_title: "\U000F001B BEDROOM AC"
       climate_entity: bedroom_panasonic_ac_bedroom_panasonic_ac
+      supports_cool_mode: true
+      supports_heat_mode: true
 
 lvgl:
   displays:
@@ -73,6 +79,7 @@ lvgl:
           border_width: 0
           pad_all: 0
           align: top_left
+          width: 75
           widgets:            
             - label:
                 id: lbl_btn_show_dashboard_page

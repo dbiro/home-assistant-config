@@ -79,7 +79,7 @@ climate:
     target_sensor: sensor.livingroom_temp_sensor_temperature
     min_temp: 18
     max_temp: 25
-    cold_tolerance: 0.1
+    cold_tolerance: 0.0
     hot_tolerance: 0.1
     precision: 0.1
     target_temp_step: 0.1

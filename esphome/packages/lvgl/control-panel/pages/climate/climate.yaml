@@ -38,7 +38,7 @@ packages:
         hvac_action: "idle"
         hvac_idle_mode: heat
         hvac_action_bg_color: color_heating
-        hvac_action_bg_opa: 25%
+        hvac_action_bg_opa: 30%
         hvac_action_text_color: color_dark_text
         hvac_action_text: "\U000F0150"
   #
@@ -51,7 +51,7 @@ packages:
         hvac_action: "idle"
         hvac_idle_mode: cool
         hvac_action_bg_color: color_cooling
-        hvac_action_bg_opa: 25%
+        hvac_action_bg_opa: 30%
         hvac_action_text_color: color_dark_text
         hvac_action_text: "\U000F0150"
   #
@@ -64,7 +64,7 @@ packages:
         hvac_action: "idle"
         hvac_idle_mode: unsupported
         hvac_action_bg_color: color_accent
-        hvac_action_bg_opa: 25%
+        hvac_action_bg_opa: 30%
         hvac_action_text_color: color_dark_text
         hvac_action_text: "\U000F0150"
   #

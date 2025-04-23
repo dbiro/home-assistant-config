@@ -43,13 +43,6 @@ zha:
 # -----------------------------------------------------------------------
 command_line:
   - sensor:
-      name: !secret my_domain
-      command: "sh -euc 'cd ./openssl && chmod u+x ./print_certificate_expiration_date.sh && ./print_certificate_expiration_date.sh'"
-      command_timeout: 30 # in secs
-      scan_interval: 3600 # 1 hour in secs
-      icon: mdi:certificate
-      device_class: timestamp
-  - sensor:
       name: "Disk temperature"
       command: "cat /sys/class/nvme/nvme0/hwmon1/temp1_input"
       command_timeout: 1

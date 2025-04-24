@@ -35,7 +35,7 @@ logbook:
 # -----------------------------------------------------------------------
 zha:
   device_config:
-    a4:c1:38:b7:91:31:44:ad-1:
+    a4:c1:38:b7:91:31:44:ad-1: # gas boiler tuya zigbee relay
       type: "switch"
 
 # -----------------------------------------------------------------------
@@ -84,7 +84,7 @@ climate:
 # -----------------------------------------------------------------------
 notify:
   - platform: group
-    name: "Mobile app notifications"
+    name: "Garage door and gate alerting group"
     services:
       # Dani mobile phone
       - service: mobile_app_sm_s911b
@@ -112,7 +112,7 @@ alert:
     data:
       tag: alerts.garage_door_is_opened
     notifiers:
-      - mobile_app_notifications
+      - garage_door_and_gate_alerting_group
 
   sliding_gate:
     name: Sliding gate is opened
@@ -129,4 +129,4 @@ alert:
     data:
       tag: alerts.sliding_gate_is_opened
     notifiers:
-      - mobile_app_notifications
+      - garage_door_and_gate_alerting_group

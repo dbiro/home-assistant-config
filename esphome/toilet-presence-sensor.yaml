@@ -1,0 +1,14 @@
+# -----------------------------
+# Define substitutions
+# -----------------------------
+substitutions:
+  esphome_node_name: toilet-presence-sensor
+  esphome_node_friendly_name: Toiler Presense Sensor
+
+# -----------------------------
+# Include required packages
+# -----------------------------
+packages:
+  device_base: !include packages/core/device-base.yaml
+  wifi: !include packages/core/wifi.yaml
+  mr24hpc1: !include packages/hardware/mr24hpc1-mmWave-sensor-kit.yaml

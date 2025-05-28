@@ -1,5 +1,3 @@
-esphome: {}  # supress VS Code syntax warning
-
 display:
   - platform: sdl
     id: my_display

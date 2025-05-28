@@ -10,4 +10,5 @@ api:
 
 ota:
   - platform: esphome
+    id: ota_id
     password: !secret ota_password

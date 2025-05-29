@@ -1,0 +1,17 @@
+time:
+  - platform: homeassistant
+    id: ha_time
+    on_time:
+      - seconds: 0
+        minutes: "*"
+        then:
+          - logger.log: "HA ON_TIME"
+          - lvgl.label.update:
+              id: lbl_time
+              text: !lambda return id(ha_time).now().strftime("%H:%M");
+    on_time_sync:
+      then:
+        - logger.log: "HA ON_TIME_SYNC"
+        - lvgl.label.update:
+              id: lbl_time
+              text: !lambda return id(ha_time).now().strftime("%H:%M");

@@ -1,0 +1,98 @@
+packages:
+  #--------------------------
+  # HVAC ACTION CHANGES
+  #-------------------------
+  #
+  # HEATING
+  #
+  climate_hvac_action_heating_activated: !include
+      file: scripts/on_hvac_action_activated.yaml
+      vars:
+        climate_entity: ${climate_entity}
+        hvac_action: "heating"
+        hvac_action_bg_color: color_heating
+        hvac_action_bg_opa: cover
+        hvac_action_text_color: color_heating
+        hvac_action_text: "\U000F0438"
+  #
+  # COOLING
+  #
+  climate_hvac_action_cooling_activated: !include
+      file: scripts/on_hvac_action_activated.yaml
+      vars:
+        climate_entity: ${climate_entity}
+        hvac_action: "cooling"
+        hvac_action_bg_color: color_cooling
+        hvac_action_bg_opa: cover
+        hvac_action_text_color: color_cooling
+        hvac_action_text: "\U000F0717"
+  #
+  # IDLE in HEAT MODE
+  #
+  climate_hvac_action_idleheat_activated: !include
+      file: scripts/on_hvac_action_activated.yaml
+      vars:
+        climate_entity: ${climate_entity}
+        hvac_action: "idle"
+        hvac_idle_mode: heat
+        hvac_action_bg_color: color_heating
+        hvac_action_bg_opa: 30%
+        hvac_action_text_color: color_dark_text
+        hvac_action_text: "\U000F0150"
+  #
+  # IDLE in COOL MODE
+  #
+  climate_hvac_action_idlecool_activated: !include
+      file: scripts/on_hvac_action_activated.yaml
+      vars:
+        climate_entity: ${climate_entity}
+        hvac_action: "idle"
+        hvac_idle_mode: cool
+        hvac_action_bg_color: color_cooling
+        hvac_action_bg_opa: 30%
+        hvac_action_text_color: color_dark_text
+        hvac_action_text: "\U000F0150"
+  #
+  # IDLE in UNSUPPORTED MODE
+  #
+  climate_hvac_action_idleunsupported_activated: !include
+      file: scripts/on_hvac_action_activated.yaml
+      vars:
+        climate_entity: ${climate_entity}
+        hvac_action: "idle"
+        hvac_idle_mode: unsupported
+        hvac_action_bg_color: color_accent
+        hvac_action_bg_opa: 30%
+        hvac_action_text_color: color_dark_text
+        hvac_action_text: "\U000F0150"
+  #
+  # OFF
+  #
+  climate_hvac_action_off_activated: !include
+      file: scripts/on_hvac_action_activated.yaml
+      vars:
+        climate_entity: ${climate_entity}
+        hvac_action: "off"
+        hvac_action_bg_color: color_dark_card
+        hvac_action_bg_opa: cover
+        hvac_action_text_color: color_dark_text
+        hvac_action_text: "Off"
+  #
+  # FALLBACK: UNSUPPORTED
+  #
+  climate_hvac_action_undefined_activated: !include
+      file: scripts/on_hvac_action_activated.yaml
+      vars:
+        climate_entity: ${climate_entity}
+        hvac_action: "unsupported"
+        hvac_action_bg_color: color_accent
+        hvac_action_bg_opa: cover
+        hvac_action_text_color: color_accent
+        hvac_action_text: "unsupported"
+  #----------------------------------
+  # HVAC MODE CHANGES SCRIPTS
+  #----------------------------------
+  climate_hvac_mode_activated: !include
+      file: scripts/on_hvac_mode_activated.yaml
+      vars:
+        climate_entity: ${climate_entity}

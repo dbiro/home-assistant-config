@@ -9,13 +9,14 @@ packages:
     file: packages/hardware/sdl-touchscreen.yaml
     vars:
       sdl_display_width: 480
-      sdl_display_height: 480
-  lvgl_homeassistant: !include packages/lvgl/control-panel/homeassistant.yaml
+      sdl_display_height: 480  
   lvgl_fonts: !include packages/lvgl/control-panel/fonts.yaml
   lvgl_colors: !include packages/lvgl/control-panel/colors.yaml
   lvgl_scripts: !include packages/lvgl/control-panel/scripts/scripts.yaml
   lvgl_api_trigger: !include packages/lvgl/control-panel/triggers/api.yaml
-  lvgl_touchscreen_trigger: !include packages/lvgl/control-panel/triggers/api.yaml
+  lvgl_ha_time_trigger: !include packages/lvgl/control-panel/triggers/ha-time.yaml
+  lvgl_touchscreen_trigger: !include packages/lvgl/control-panel/triggers/touchscreen.yaml
+  lvgl_keep_display_on_trigger: !include packages/lvgl/control-panel/triggers/keep-display-on.yaml
   lvgl: !include packages/lvgl/control-panel/lvgl.yaml
 
 host:

@@ -13,7 +13,11 @@ packages:
   device_base: !include packages/core/device-base.yaml
   wifi: !include packages/core/wifi.yaml
   sensecap_indicator: !include packages/hardware/sensecap-indicator-touchscreen.yaml
-  lvgl_control_panel: !include packages/lvgl/control-panel/control-panel.yaml
+  lvgl_fonts: !include packages/lvgl/control-panel/fonts.yaml
+  lvgl_colors: !include packages/lvgl/control-panel/colors.yaml
+  lvgl_scripts: !include packages/lvgl/control-panel/scripts/scripts.yaml
+  lvgl_triggers: !include packages/lvgl/control-panel/triggers/triggers.yaml
+  lvgl: !include packages/lvgl/control-panel/lvgl.yaml
 
 #-------------------------------------------
 # Ssetup internal button triggers

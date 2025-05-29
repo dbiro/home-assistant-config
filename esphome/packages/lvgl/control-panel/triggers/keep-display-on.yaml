@@ -1,0 +1,30 @@
+binary_sensor:
+  - platform: template
+    id: keep_display_on
+    internal: true
+    lambda: |-
+      return
+        str_endswith(id(ha_gas_boiler_thermostat_hvac_action_sensor).state.c_str(), "ing") or
+        str_endswith(id(ha_livingroom_panasonic_ac_livingroom_panasonic_ac_hvac_action_sensor).state.c_str(), "ing") or
+        str_endswith(id(ha_bedroom_panasonic_ac_bedroom_panasonic_ac_hvac_action_sensor).state.c_str(), "ing") or
+        id(ha_garage_door_opening_sensor).state or
+        id(ha_sliding_gate_opening_sensor).state;
+    on_state:
+      then:
+        if:
+          condition:
+            lambda: |-
+              return x;
+          then:
+            - logger.log: "Display should keep on: resuming LVGL"
+            - script.execute: lvgl_resume
+          else:
+            - if:
+                condition: 
+                  lvgl.is_idle:
+                    timeout: ${lvgl_idle_timeout}
+                then:
+                  - logger.log: "Display should turn off: pausing LVGL"
+                  - script.execute: lvgl_pause
+                else:
+                  - logger.log: Display should still keep on. LVG idle timeout ${lvgl_idle_timeout} not reached.

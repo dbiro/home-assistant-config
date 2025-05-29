@@ -2,8 +2,7 @@ packages:
   #-------------------------------
   # ====== DASHBOARD PAGE ======
   #-------------------------------
-  lvgl_dashboard_page_styles: !include pages/dashboard/dashboard-page-styles.yaml
-  lvgl_dashboard_page: !include pages/dashboard/dashboard-page.yaml
+  lvgl_dashboard_page: !include pages/dashboard/dashboard.yaml
   #-----------------------------
   # ====== CLIMATE PAGES ======
   #-----------------------------

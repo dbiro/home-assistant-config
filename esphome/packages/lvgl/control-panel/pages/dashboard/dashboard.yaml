@@ -1,4 +1,47 @@
+binary_sensor:
+  - platform: homeassistant
+    id: ha_garage_door_opening_sensor
+    entity_id: binary_sensor.pico_w_1_garage_door_opening
+    publish_initial_state: true
+    on_state:
+      then:
+        lvgl.widget.update:
+          id: btn_garage_door_state
+          state:
+            checked: !lambda return x;
+
+  - platform: homeassistant
+    id: ha_sliding_gate_opening_sensor
+    entity_id: binary_sensor.pico_w_1_sliding_gate_opening
+    publish_initial_state: true
+    on_state:
+      then:
+        lvgl.widget.update:
+          id: btn_sliding_gate_state
+          state:
+            checked: !lambda return x;
+
+  - platform: homeassistant
+    id: ha_garage_door_openings_sensor
+    entity_id: binary_sensor.garage_door_openings
+    publish_initial_state: true
+    on_state:
+      then:
+        lvgl.widget.update:
+          id: btn_door_gate_state
+          state:
+            checked: !lambda return x;
+
 lvgl:
+  style_definitions:
+    - id: dashboard_button
+      width: 150
+      height: 135
+      bg_color: color_dark_card
+    - id: dashboard_button_icon_label
+      text_font: "roboto_64"
+    - id: dashboard_button_name_label
+      text_font: "roboto_18"
   pages:
     - id: dashboard_page
       on_load:

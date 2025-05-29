@@ -1,7 +1,7 @@
 substitutions:
   esphome_node_name: host-dev-node
   esphome_node_friendly_name: Host Dev Node
-  lvgl_idle_timeout: 100sec
+  lvgl_idle_timeout: 15sec
 
 packages:
   device_base: !include packages/core/device-base.yaml

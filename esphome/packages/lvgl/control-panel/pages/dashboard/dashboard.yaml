@@ -32,6 +32,27 @@ binary_sensor:
           state:
             checked: !lambda return x;
 
+text_sensor:
+  - platform: homeassistant
+    id: ha_awning_cover_state_sensor
+    entity_id: cover.awning
+    on_value:
+      then:
+        if:
+          condition:
+            lambda: |-
+              return x != "closed" and x != "unavailable";
+          then:
+            lvgl.widget.update:
+              id: btn_awning_state
+              state:
+                checked: true
+          else:
+            lvgl.widget.update:
+              id: btn_awning_state
+              state:
+                checked: false
+
 lvgl:
   style_definitions:
     - id: dashboard_button
@@ -190,3 +211,25 @@ lvgl:
                   action: "switch.toggle"
                   data:
                     entity_id: "switch.sonoff_1001df9776_1"
+        - button:
+            id: btn_awning_state
+            styles: dashboard_button
+            layout:
+              type: flex
+              flex_flow: column
+              flex_align_main: center
+              flex_align_cross: center
+              flex_align_track: center
+            widgets:
+              - label:
+                  text: "\U000F1B88"
+                  styles: dashboard_button_icon_label
+              - label:
+                  text: "Awning"
+                  styles: dashboard_button_name_label
+            on_click:
+              then:
+                homeassistant.action:
+                  action: "cover.toggle"
+                  data:
+                    entity_id: "cover.awning"

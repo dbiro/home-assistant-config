@@ -58,7 +58,8 @@ font:
           "\U000F0299", # mdi:gate
           "\U000F12D3", # mdi:garage-variant
           "\U000F001B", # mdi:air-conditioner
-          "\U000F0438"  # mdi:radiator
+          "\U000F0438", # mdi:radiator
+          "\U000F1B88"  # mdi:awning-outline
         ]
   - file: "fonts/Roboto-Regular.ttf"
     size: 96

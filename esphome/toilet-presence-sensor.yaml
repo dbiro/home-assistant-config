@@ -3,7 +3,7 @@
 # -----------------------------
 substitutions:
   esphome_node_name: toilet-presence-sensor
-  esphome_node_friendly_name: Toiler Presense Sensor
+  esphome_node_friendly_name: Toilet Presense Sensor
 
 # -----------------------------
 # Include required packages

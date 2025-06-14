@@ -2,8 +2,8 @@
 # Define substitutions
 # -----------------------------
 substitutions:
-  esphome_node_name: livingroom-indicator-panel
-  esphome_node_friendly_name: Livingroom indicator panel
+  esphome_node_name: sensecap-indicator-dev
+  esphome_node_friendly_name: Sensecap Indicator Dev
   lvgl_idle_timeout: 30min
 
 # -----------------------------
@@ -33,7 +33,7 @@ binary_sensor:
             else:
               - script.execute: lvgl_pause
 
-# RP2040 communication PoC
+# RP2040 communication
 uart:
   id: rp2040_uart
   tx_pin: GPIO19
@@ -41,10 +41,8 @@ uart:
   baud_rate: 115200
 
 touchscreen:
-  on_touch:
+  on_touch: 
     then:
       - uart.write:
           id: rp2040_uart
           data: [0xB0]
-      - script.execute:
-          id: lvgl_resume

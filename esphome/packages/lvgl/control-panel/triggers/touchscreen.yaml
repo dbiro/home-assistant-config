@@ -1,3 +1,4 @@
 touchscreen:
   on_touch:
-    - script.execute: lvgl_resume
+    then:
+      script.execute: lvgl_resume

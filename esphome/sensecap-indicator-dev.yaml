@@ -19,31 +19,3 @@ packages:
   lvgl_triggers: !include packages/lvgl/control-panel/triggers/triggers.yaml
   lvgl_indicator_triggers: !include packages/lvgl/control-panel/sensecap-indicator/triggers.yaml
   lvgl: !include packages/lvgl/control-panel/lvgl.yaml
-
-#-------------------------------------------
-# Ssetup internal button triggers
-#-------------------------------------------
-binary_sensor:
-  - id: !extend indicator_button
-    on_press:
-      then:
-        - if:
-            condition: lvgl.is_paused
-            then:
-              - script.execute: lvgl_resume
-            else:
-              - script.execute: lvgl_pause
-
-# RP2040 communication
-uart:
-  id: rp2040_uart
-  tx_pin: GPIO19
-  rx_pin: GPIO20
-  baud_rate: 115200
-
-touchscreen:
-  on_touch: 
-    then:
-      - uart.write:
-          id: rp2040_uart
-          data: [0xB0]

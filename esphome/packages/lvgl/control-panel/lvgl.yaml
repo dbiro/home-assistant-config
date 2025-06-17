@@ -76,10 +76,11 @@ lvgl:
           id: btn_show_dashboard_page
           bg_opa: transp
           border_width: 0
+          radius: 0
           pad_all: 0
           align: top_left
-          width: 75
-          widgets:            
+          width: 70
+          widgets:
             - label:
                 id: lbl_btn_show_dashboard_page
                 align: left_mid
@@ -87,9 +88,7 @@ lvgl:
                 text: "\U000F004D"
           on_click:
             then:
-              lvgl.page.show:
-                id: dashboard_page
-                animation: none
+              script.execute: lvgl_show_dashboard_page
       - label:
           id: lbl_time
           align: top_left

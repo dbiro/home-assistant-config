@@ -12,39 +12,10 @@ substitutions:
 packages:
   device_base: !include packages/core/device-base.yaml
   wifi: !include packages/core/wifi.yaml
-  sensecap_indicator: !include packages/hardware/sensecap-indicator-touchscreen.yaml
+  sensecap_indicator: !include packages/hardware/sensecap-indicator.yaml
   lvgl_fonts: !include packages/lvgl/control-panel/fonts.yaml
   lvgl_colors: !include packages/lvgl/control-panel/colors.yaml
   lvgl_scripts: !include packages/lvgl/control-panel/scripts/scripts.yaml
   lvgl_triggers: !include packages/lvgl/control-panel/triggers/triggers.yaml
+  lvgl_indicator_triggers: !include packages/lvgl/control-panel/sensecap-indicator/triggers.yaml
   lvgl: !include packages/lvgl/control-panel/lvgl.yaml
-
-#-------------------------------------------
-# Ssetup internal button triggers
-#-------------------------------------------
-binary_sensor:
-  - id: !extend indicator_button
-    on_press:
-      then:
-        - if:
-            condition: lvgl.is_paused
-            then:
-              - script.execute: lvgl_resume
-            else:
-              - script.execute: lvgl_pause
-
-# RP2040 communication PoC
-uart:
-  id: rp2040_uart
-  tx_pin: GPIO19
-  rx_pin: GPIO20
-  baud_rate: 115200
-
-touchscreen:
-  on_touch:
-    then:
-      - uart.write:
-          id: rp2040_uart
-          data: [0xB0]
-      - script.execute:
-          id: lvgl_resume

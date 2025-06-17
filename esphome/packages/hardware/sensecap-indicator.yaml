@@ -132,3 +132,12 @@ touchscreen:
     mirror_y: true
   id: my_touchscreen
   display: my_display
+
+#-------------------------------------------
+# RP2040 UART communication
+#-------------------------------------------
+uart:
+  id: rp2040_uart
+  tx_pin: GPIO19
+  rx_pin: GPIO20
+  baud_rate: 115200

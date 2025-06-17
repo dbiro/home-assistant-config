@@ -1,0 +1,22 @@
+#-------------------------------------------
+# Setup sensecap indicator specific triggers
+#-------------------------------------------
+binary_sensor:
+  - id: !extend indicator_button
+    on_press:
+      then:
+        - if:
+            condition: lvgl.is_paused
+            then:
+              - script.execute: lvgl_resume
+            else:
+              - script.execute: lvgl_pause
+
+touchscreen:
+  on_touch:
+    then:
+      - uart.write:
+          id: rp2040_uart
+          data: [0xB0]
+      - script.execute:
+          id: lvgl_resume

@@ -12,7 +12,7 @@ substitutions:
 packages:
   device_base: !include packages/core/device-base.yaml
   wifi: !include packages/core/wifi.yaml
-  sensecap_indicator: !include packages/hardware/sensecap-indicator.yaml
+  sensecap_indicator: !include packages/hardware//sensecap-indicator/sensecap-indicator.yaml
   lvgl_fonts: !include packages/lvgl/control-panel/fonts.yaml
   lvgl_colors: !include packages/lvgl/control-panel/colors.yaml
   lvgl_scripts: !include packages/lvgl/control-panel/scripts/scripts.yaml

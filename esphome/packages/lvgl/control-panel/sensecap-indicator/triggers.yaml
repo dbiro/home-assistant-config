@@ -17,6 +17,13 @@ touchscreen:
     then:
       - uart.write:
           id: rp2040_uart
-          data: [0xB0]
+          data: [0xB1]
       - script.execute:
           id: lvgl_resume
+
+esphome:
+  on_boot:
+    then:
+      uart.write:
+        id: rp2040_uart
+        data: [0xB0]

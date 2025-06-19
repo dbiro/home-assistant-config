@@ -36,7 +36,7 @@ void buzzer_beep_system(void) {
 
 #define CMD_TYPE_BEEP_PRESSED 0xB1
 void buzzer_beep_pressed(void) {
-  buzzer_pwm_beep(254);
+  buzzer_tone_beep(2000);
 }
 
 #define CMD_TYPE_BEEP_ALERT 0xBB
